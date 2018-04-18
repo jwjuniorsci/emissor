@@ -257,17 +257,20 @@
                                     </div>
                                 </div><br/><br/>
                                 <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="busctrans" value="#{emissaoControle.emissao.transportadora}"
+                                                            converter="#{transportadoraControle.converter()}"
+                                                            completeMethod="#{transportadoraControle.listaTransportadora}"
+                                                            var="trans" itemLabel="#{trans.razao}" itemValue="#{cli}"
+                                                            maxResults="10" forceSelection="true"/>
+                                            <label>Transportadora</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
                                     <p:tabView>
-                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
-                                            <h:panelGroup styleClass="md-inputfield">
-                                                <p:autoComplete id="busctrans" value="#{emissaoControle.emissao.transportadora}"
-                                                                converter="#{transportadoraControle.converter()}"
-                                                                completeMethod="#{transportadoraControle.listaTransportadora}"
-                                                                var="trans" itemLabel="#{trans.razao}" itemValue="#{cli}"
-                                                                maxResults="10" forceSelection="true"/>
-                                                <label>Transportadora</label>
-                                            </h:panelGroup>
-                                        </div>
+
 
                                         <p:tab title="ICMS retido do Transportador">
                                             <br/>
@@ -275,12 +278,218 @@
                                                 <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
                                                     <h:panelGroup styleClass="md-inputfield">
                                                         <p:inputText id="vServ" value="#{emissaoControle.emissao.vserv}"/>
-                                                        <label>Valor Produto</label>
+                                                        <label>Valor Produto *</label>
                                                     </h:panelGroup>
                                                 </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="vbCRet" value="#{emissaoControle.emissao.vbCRet}"/>
+                                                        <label>B.C ICMS Retido *</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="piCMSRet" value="#{emissaoControle.emissao.piCMSRet}"/>
+                                                        <label>Alíquota do ICMS Retido *</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="viCMSRet" value="#{emissaoControle.emissao.viCMSRet}"/>
+                                                        <label>Valor do ICMS Retido *</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:selectOneMenu id="cfopTrans" value="#{emissaoControle.emissao.cfopTransp}">
+                                                            <f:selectItem itemLabel="CFOP" itemValue=""/>
+                                                            <f:selectItem itemLabel="5351" itemValue="5351"/>
+                                                            <f:selectItem itemLabel="5352" itemValue="5352"/>
+                                                            <f:selectItem itemLabel="5353" itemValue="5353"/>
+                                                            <f:selectItem itemLabel="5354" itemValue="5354"/>
+                                                            <f:selectItem itemLabel="5355" itemValue="5355"/>
+                                                            <f:selectItem itemLabel="5356" itemValue="5356"/>
+                                                            <f:selectItem itemLabel="5357" itemValue="5357"/>
+                                                            <f:selectItem itemLabel="5359" itemValue="5359"/>
+                                                            <f:selectItem itemLabel="5360" itemValue="5360"/>
+                                                            <f:selectItem itemLabel="5931" itemValue="5931"/>
+                                                            <f:selectItem itemLabel="5932" itemValue="5932"/>
+                                                            <f:selectItem itemLabel="6351" itemValue="6351"/>
+                                                            <f:selectItem itemLabel="6352" itemValue="6352"/>
+                                                            <f:selectItem itemLabel="6353" itemValue="6353"/>
+                                                            <f:selectItem itemLabel="6354" itemValue="6354"/>
+                                                            <f:selectItem itemLabel="6355" itemValue="6355"/>
+                                                            <f:selectItem itemLabel="6356" itemValue="6356"/>
+                                                            <f:selectItem itemLabel="6357" itemValue="6357"/>
+                                                            <f:selectItem itemLabel="6359" itemValue="6359"/>
+                                                            <f:selectItem itemLabel="6360" itemValue="6360"/>
+                                                            <f:selectItem itemLabel="6931" itemValue="6931"/>
+                                                            <f:selectItem itemLabel="6932" itemValue="6932"/>
+                                                            <f:selectItem itemLabel="7358" itemValue="7358"/>
+                                                        </p:selectOneMenu>
+                                                    </h:panelGroup>
+                                                </div>
+
                                             </div>
                                         </p:tab>    
+                                        <p:tab title="Veiculo do Transportador">
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="plavaVeiculo" value="#{emissaoControle.emissao.plavaVeiculo}"/>
+                                                        <label>Placa *</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="uf" value="#{emissaoControle.emissao.ufPlaca}"/>
+                                                        <label>UF Placa *</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="rntc" value="#{emissaoControle.emissao.vrntc}"/>
+                                                        <label>RNTC - Registro Nacional de Transportador de Carga</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                            </div><br/>    
+                                            <p:tabView>
+                                                <p:tab title="Reboque do Transportador">
+                                                    <br/>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="rplavaVeiculo" value="#{emissaoControle.reboqueTrans.rplaca}"/>
+                                                                <label>Placa do Reboque*</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="ruf" value="#{emissaoControle.reboqueTrans.ruf}"/>
+                                                                <label>UF Placa *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="rrntc" value="#{emissaoControle.reboqueTrans.rrntc}"/>
+                                                                <label>RNTC - Registro Nacional de Transportador de Carga</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                    </div><br/>  
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <p:commandButton value="Adicionar" style="width:auto;margin-bottom:10px;"
+                                                                             styleClass="cyan-btn" icon="ui-icon-add-circle"
+                                                                             actionListener="#{emissaoControle.addReboque()}"
+                                                                             update="rplavaVeiculo,ruf,rrntc,reboques"
+                                                                             />
+                                                        </div>
+                                                    </div><br/>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                            <p:dataTable id="reboques" value="#{emissaoControle.emissao.reboques}"
+                                                                         var="ic" emptyMessage="Nenhum Reboque Adicionado">
+                                                                <p:column headerText="Placa">
+                                                                    <h:outputText value="#{ic.rplaca}"/>
+                                                                </p:column>
+                                                                <p:column headerText="UF">
+                                                                    <h:outputText value="#{ic.ruf}"/>
+                                                                </p:column>
+                                                                <p:column headerText="RNTC">
+                                                                    <h:outputText value="#{ic.rrntc}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Operações">
+                                                                    <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" 
+                                                                                     actionListener="#{emissaoControle.removeReboque(ic)}"
+                                                                                     ajax="true" update="total"/>
+                                                                    <p:tooltip for="btnExcluir" value="Excluir Reboque" position="top"/>
+                                                                </p:column>
+                                                            </p:dataTable>
+                                                        </div>
+                                                    </div>
 
+                                                </p:tab>
+                                                <p:tab title="Volumes">
+                                                    <br/>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="qvol" value="#{emissaoControle.emissao.qvol}"/>
+                                                                <label>Quantidade de Volumes *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="esp" value="#{emissaoControle.emissao.esp}"/>
+                                                                <label>Espécie *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="marca" value="#{emissaoControle.emissao.marca}"/>
+                                                                <label>Marca *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="nvol" value="#{emissaoControle.emissao.nvol}"/>
+                                                                <label>Numeração dos Volumes *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                    </div><br/>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="pesoL" value="#{emissaoControle.emissao.pesoL}"/>
+                                                                <label>Peso líquido *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                            <h:panelGroup styleClass="md-inputfield">
+                                                                <p:inputText id="pesoB" value="#{emissaoControle.emissao.pesoB}"/>
+                                                                <label>Peso Bruto *</label>
+                                                            </h:panelGroup>
+                                                        </div>
+                                                    </div><br/>
+                                                    <p:tabView>
+                                                        <p:tab title="Lacres"><br/>
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-3">
+                                                                    <h:panelGroup styleClass="md-inputfield">
+                                                                        <p:inputText id="nlacre" value="#{emissaoControle.lacres.nlacre}"/>
+                                                                        <label>Numero do Lacre *</label>
+                                                                    </h:panelGroup>
+                                                                </div>
+                                                            </div><br/>
+                                                            <div class="row">
+                                                                <p:commandButton value="Adicionar" style="width:auto;margin-bottom:10px;"
+                                                                                 styleClass="cyan-btn" icon="ui-icon-add-circle"
+                                                                                 actionListener="#{emissaoControle.addLacre()}"
+                                                                                 update="nlacre,lacres"
+                                                                                 />
+                                                            </div><br/>
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                                    <p:dataTable id="lacres" value="#{emissaoControle.emissao.listaLacres}"
+                                                                                 var="ic" emptyMessage="Nenhum Lacre Adicionado">
+                                                                        <p:column headerText="Nº Lacre">
+                                                                            <h:outputText value="#{ic.nlacre}"/>
+                                                                        </p:column>
+                                                                        <p:column headerText="Operações">
+                                                                            <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" 
+                                                                                             actionListener="#{emissaoControle.removeLacre(ic)}"
+                                                                                             ajax="true" update="total"/>
+                                                                            <p:tooltip for="btnExcluir" value="Excluir Lacre" position="top"/>
+                                                                        </p:column>
+                                                                    </p:dataTable>
+                                                                </div>
+                                                            </div>
+                                                        </p:tab>
+                                                    </p:tabView>
+                                                </p:tab>
+                                            </p:tabView>
+                                        </p:tab>
                                     </p:tabView>
                                 </div>
                             </p:tab>

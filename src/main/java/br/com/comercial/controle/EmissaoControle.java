@@ -10,8 +10,10 @@ import br.com.comercial.converter.ConverterGenerico;
 import br.com.comercial.entidade.Emissao;
 import br.com.comercial.entidade.Emissao65;
 import br.com.comercial.entidade.ItemEmissao;
+import br.com.comercial.entidade.Lacres;
 import br.com.comercial.entidade.ParametrosFiscais;
 import br.com.comercial.entidade.Produto;
+import br.com.comercial.entidade.ReboqueTrans;
 import br.com.comercial.facade.EmissaoFacade;
 import br.com.comercial.facade.ParametrosFiscaisFacade;
 import br.com.comercial.facade.ProdutoFacade;
@@ -96,7 +98,10 @@ public class EmissaoControle implements Serializable {
     private EmissaoFacade emissaoFacade;
     @Inject
     private ProdutoFacade produtoFacade;
+    
     private Emissao emissao;
+    private ReboqueTrans reboqueTrans;
+    private Lacres lacres;
     private ItemEmissao itemEmissao;
     private ConverterGenerico converterGenerico;
     private ParametrosFiscais parametrosFiscais;
@@ -132,6 +137,10 @@ public class EmissaoControle implements Serializable {
         emissao.setModelo("55");
         emissao.setNumNfe(parametrosFiscais.getNumNota55());
         itemEmissao.setEmissao(emissao);
+        reboqueTrans = new ReboqueTrans();
+        reboqueTrans.setEmissao(emissao);
+        lacres = new Lacres();
+        lacres.setEmissao(emissao);
         valoresPadraoNfe();
         valoresPadraoItem();
 
@@ -302,19 +311,37 @@ public class EmissaoControle implements Serializable {
         itemEmissao.setCofinsPorc(BigDecimal.ZERO);
     }
 
-    public void addItem() throws Exception {
-        System.out.println("Linha 1");
+    public void addItem()  {
+        try {
         emissao.getListaProd().add(itemEmissao);
-        System.out.println("Linha 2");
         defineTributacao();
-        System.out.println("Linha 3");
         atualizaTotais();
-        System.out.println("Linha 4");
         itemEmissao = new ItemEmissao();
-        System.out.println("Linha 5");
         itemEmissao.setEmissao(emissao);
-        System.out.println("Linha 6");
         valoresPadraoItem();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+    
+    public void addReboque() {
+        emissao.getReboques().add(reboqueTrans);
+        reboqueTrans = new ReboqueTrans();
+        reboqueTrans.setEmissao(emissao);
+    }
+    
+    public void removeReboque(ReboqueTrans r){
+        emissao.getReboques().remove(r);
+    }
+    
+    public void addLacre() {
+        emissao.getListaLacres().add(lacres);
+        lacres = new Lacres();
+        lacres.setEmissao(emissao);
+    }
+    
+    public void removeLacre(Lacres l){
+        emissao.getListaLacres().remove(l);
     }
 
     public String geraChaveNfe(ParametrosFiscais p) {
@@ -1049,6 +1076,24 @@ public class EmissaoControle implements Serializable {
     public void setFile(StreamedContent file) {
         this.file = file;
     }
+
+    public ReboqueTrans getReboqueTrans() {
+        return reboqueTrans;
+    }
+
+    public void setReboqueTrans(ReboqueTrans reboqueTrans) {
+        this.reboqueTrans = reboqueTrans;
+    }
+
+    public Lacres getLacres() {
+        return lacres;
+    }
+
+    public void setLacres(Lacres lacres) {
+        this.lacres = lacres;
+    }
+    
+    
 
     
 }

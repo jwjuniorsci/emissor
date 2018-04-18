@@ -19,6 +19,8 @@
     <class>br.com.comercial.entidade.Usuario</class>
     <class>br.com.comercial.entidade.Inutilizacao</class>
     <class>br.com.comercial.entidade.Transportadora</class>
+    <class>br.com.comercial.entidade.ReboqueTrans</class>
+    <class>br.com.comercial.entidade.Lacres</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nfe"/>

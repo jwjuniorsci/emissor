@@ -54,7 +54,7 @@ public class Emissao implements Serializable {
     private Integer qtdVolumes;
     private Integer numNfe;
     private Float pesoVolumes;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emissao", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emissao", fetch = FetchType.LAZY)
     private List<ItemEmissao> listaProd;
     @ManyToOne
     private Emitente emitente;
@@ -85,9 +85,8 @@ public class Emissao implements Serializable {
     private String vuf;
     private String vrntc;
     //Identificação do Reboque do Transportador
-    private String rplaca;
-    private String ruf;
-    private String rrntc;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emissao", fetch = FetchType.LAZY)
+    private List<ReboqueTrans> reboques;
     //Volumes
     private BigDecimal qvol;
     private BigDecimal pesoL;
@@ -97,9 +96,12 @@ public class Emissao implements Serializable {
     private String nvol;
     private String lacres;
     //Lacres
-    private String nlacre;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "emissao", fetch = FetchType.LAZY)
+    private List<Lacres> listaLacres;
     public Emissao() {
         listaProd = new ArrayList<ItemEmissao>();
+        reboques = new ArrayList<ReboqueTrans>();
+        listaLacres = new ArrayList<Lacres>();
     }
     
     public Long getId() {
@@ -535,29 +537,6 @@ public class Emissao implements Serializable {
         this.vrntc = vrntc;
     }
 
-    public String getRplaca() {
-        return rplaca;
-    }
-
-    public void setRplaca(String rplaca) {
-        this.rplaca = rplaca;
-    }
-
-    public String getRuf() {
-        return ruf;
-    }
-
-    public void setRuf(String ruf) {
-        this.ruf = ruf;
-    }
-
-    public String getRrntc() {
-        return rrntc;
-    }
-
-    public void setRrntc(String rrntc) {
-        this.rrntc = rrntc;
-    }
 
     public BigDecimal getQvol() {
         return qvol;
@@ -575,16 +554,21 @@ public class Emissao implements Serializable {
         this.nvol = nvol;
     }
 
-    public String getNlacre() {
-        return nlacre;
+    public List<ReboqueTrans> getReboques() {
+        return reboques;
     }
 
-    public void setNlacre(String nlacre) {
-        this.nlacre = nlacre;
+    public void setReboques(List<ReboqueTrans> reboques) {
+        this.reboques = reboques;
     }
 
-    
-    
+    public List<Lacres> getListaLacres() {
+        return listaLacres;
+    }
+
+    public void setListaLacres(List<Lacres> listaLacres) {
+        this.listaLacres = listaLacres;
+    }
     
 
     @Override
