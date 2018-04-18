@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/JW%20Junior/Google%20Drive/WebSoft/Nfe/../../../Desktop/Nfe/PL_009_V4/consReciNFe_v4.00.xsd" uri="src/main/resources/jaxb/xsd/consReciNFe_v4.00.xsd"/>
+    <system systemId="file:/C:/Users/JW%20Junior/Desktop/Nfe/PL_009_V4/leiauteNFe_v4.00.xsd" uri="src/main/resources/jaxb/xsd/leiauteNFe_v4.00.xsd"/>
+    <system systemId="file:/C:/Users/JW%20Junior/Google%20Drive/WebSoft/Nfe/../../../Desktop/Nfe/PL_009_V4/consSitNFe_v4.00.xsd" uri="src/main/resources/jaxb/situacao/consSitNFe_v4.00.xsd"/>
+    <system systemId="file:/C:/Users/JW%20Junior/Desktop/Nfe/PL_009_V4/leiauteConsSitNFe_v4.00.xsd" uri="src/main/resources/jaxb/situacao/leiauteConsSitNFe_v4.00.xsd"/>
+    <system systemId="file:/C:/Users/JW%20Junior/Desktop/Nfe/PL_009_V4/xmldsig-core-schema_v1.01.xsd" uri="src/main/resources/jaxb/situacao/xmldsig-core-schema_v1.01.xsd"/>
+    <system systemId="file:/C:/Users/JW%20Junior/Desktop/Nfe/PL_009_V4/tiposBasico_v4.00.xsd" uri="src/main/resources/jaxb/situacao/tiposBasico_v4.00.xsd"/>
+</catalog>

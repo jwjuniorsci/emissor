@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Marca</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <h:form> 
+            <p:growl showDetail="true" id="growl" sticky="true"/>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-lg-12">
+
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+
+
+                        <h1>Marca</h1>
+                        <!--<p:panelGrid  layout="grid" styleClass="ui-panelgrid-blank form-group">-->
+
+                        <div class="row"> 
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="cc" value="#{marcaControle.marca.nome}"
+                                                 required="true" requiredMessage="O Campo Marca é obrigatório."/>
+                                    <label>Marca</label>
+                                </h:panelGroup>
+                            </div>    
+                        </div><br/><br/>     
+                        
+
+
+
+
+                        <div class="row" style="margin-left: 5px;">
+                            
+                                <p:commandButton  value="Salvar" style="width:auto;margin-bottom:10px;
+                                                  margin-top: -10px;" update="growl"
+                                                  disabled="#{!consultaStatusServController.statusEmit()}"
+                                                  styleClass="green-btn" icon="ui-icon-save"
+                                                  action="#{marcaControle.salvar()}"/>
+                                <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                                  margin-top: -10px;"
+                                                  styleClass="red-btn" icon="ui-icon-home"
+                                                  action="list.xhtml"/>
+                            
+                        </div>
+
+                    </div>
+
+
+                    <!--</p:panelGrid>-->
+
+
+                </div>
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

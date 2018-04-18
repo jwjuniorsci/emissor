@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">NFe Emitidas</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl showDetail="true" id="growl" sticky="true"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
+                        <p:dataTable var="emissao" value="#{emissaoControle.lista}" reflow="true"
+                                     rowKey="#{emissao.id}" paginator="true" rows="10" paginatorPosition="bottom"
+                                     emptyMessage="Nenhuma NFe encontrada.">
+                            <f:facet name="header">
+                                NFe Emitidas
+                            </f:facet>
+                            <p:column headerText="Chave de Acesso NFe" sortBy="#{emissao.chave}" style="text-align: center;">
+                                <h:outputText value="#{emissao.chave}" />
+                            </p:column>
+                            <p:column headerText="Status" sortBy="#{emissao.status}" style="text-align: center;">
+                                <h:outputText value="#{emissao.status}" />
+                            </p:column>
+                            <p:column headerText="Data de Emissão" filterBy="#{emissao.dataDigit}" filterMatchMode="contains"
+                                      sortBy="#{emissao.dataDigit}" style="text-align: center;">
+                                <h:outputText value="#{emissao.dataDigit}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Valor da Nota" filterBy="#{emissao.vlrTotalNf}" filterMatchMode="contains"
+                                      sortBy="#{emissao.vlrTotalNf}" style="text-align: center;">
+                                <h:outputText value="#{emissao.vlrTotalNf}">
+                                    <f:convertNumber currencySymbol="R$" maxFractionDigits="2" minFractionDigits="2"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Operações" style="text-align: center;">
+                                <p:commandButton id="btnEditar" icon="ui-icon-border-color" action="form.xhtml" 
+                                                 actionListener="#{emissaoControle.editar(emissao)}"/>
+                                <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" styleClass="red-btn"
+                                                 actionListener="#{emissaoControle.excluir(emissao)}"
+                                                 ajax="true"/>
+                                <p:commandButton id="btnDanfe" icon="ui-icon-local-printshop" styleClass="cyan-btn"
+                                                 action="#{relatorioControle.relatorioaDanfe55(emissao)}"  disabled="#{emissao.status != 'Autorizado o uso da NF-e'}"
+                                                 ajax="false" onclick="this.form.target = 'BLANK'"/>
+                                <p:commandButton id="btnDanfeP" icon="ui-icon-local-printshop" styleClass="green-btn"
+                                                 action="#{relatorioControle.relatorioaDanfe55P(emissao)}"  disabled="#{emissao.status != 'Autorizado o uso da NF-e'}"
+                                                 ajax="false" onclick="this.form.target = 'BLANK'"/>
+                                <p:commandButton id="btnDownload" ajax="false" disabled="#{emissao.caminho == ''}" 
+                                                 icon="ui-icon-cloud-download">
+                                    <p:fileDownload value="#{emissaoControle.downloadFile(emissao)}"/>
+                                </p:commandButton>
+                                
+                                <p:tooltip for="btnEditar" value="Editar" position="top"/>
+                                <p:tooltip for="btnExcluir" value="Excluir" position="top"/>
+                                <p:tooltip for="btnDanfe" value="Imprimir Danfe(Retrato)" position="top"/>
+                                <p:tooltip for="btnDanfeP" value="Imprimir Danfe(Paisagem)" position="top"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <div class="card card-w-title">
+                        <p:commandButton value="Novo" style="width:auto;margin-bottom:10px;float:left;
+                                         margin-top: -10px;"
+                                         disabled="#{!consultaStatusServController.statusEmit()}"
+                                         styleClass="cyan-btn" icon="ui-icon-add-circle"
+                                         actionListener="#{emissaoControle.novo()}" action="form55.xhtml"/>
+                        <p:commandButton value="Inicio" style="width:auto;margin-bottom:10px;float:right;
+                                         margin-top: -10px;"
+                                         styleClass="green-btn" icon="ui-icon-home"
+                                         action="/dashboard.xhtml"/>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

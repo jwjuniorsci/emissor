@@ -1,0 +1,1056 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Produto</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-12">
+
+                <!-- Left Side -->
+                <div class="card card-w-title">
+                    <h:form> 
+                        <p:growl showDetail="true" id="growl" sticky="true"/>
+
+                        <h1>Emitir NFe</h1><br/>
+                        <!--<p:panelGrid  layout="grid" styleClass="ui-panelgrid-blank form-group">-->
+                        <p:tabView>
+                            <p:tab title="Dados da NFe"><br/><br/>
+                                <div class="row"> 
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="chave" value="#{emissaoControle.emissao.chave}" disabled="true"/>
+                                            <label>Chave de Acesso</label>
+                                        </h:panelGroup>
+                                    </div>    
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-1">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="model" value="#{emissaoControle.emissao.modelo}" disabled="true"/>
+                                            <label>Modelo</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="nnfe" value="#{emissaoControle.emissao.numNfe}" disabled="true"/>
+                                            <label>Nº NFe</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-1 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="srie" value="#{emissaoControle.emissao.serie}" disabled="true"/>
+                                            <label>Serie</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="busccli" value="#{emissaoControle.emissao.cliente}"
+                                                            converter="#{clienteControle.converter()}"
+                                                            completeMethod="#{clienteControle.listaCliente}"
+                                                            var="cli" itemLabel="#{cli.nome}" itemValue="#{cli}"
+                                                            maxResults="10" forceSelection="true"/>
+                                            <label>Cliente</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:selectOneMenu id="destOp" value="#{emissaoControle.emissao.destOp}">
+                                                <f:selectItem itemLabel="Destino da Operação" itemValue=""/>
+                                                <f:selectItem itemLabel="Operação Interna" itemValue="1"/>
+                                                <f:selectItem itemLabel="Operação Interestadual" itemValue="2"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div style="margin-left: 5px;" class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:selectOneMenu id="tpImp" value="#{emissaoControle.emissao.tpImp}">
+                                                <f:selectItem itemLabel="Formato de Impressão" itemValue=""/>
+                                                <f:selectItem itemLabel="DANFE normal, Retrato" itemValue="1"/>
+                                                <f:selectItem itemLabel="DANFE normal, Paisagem" itemValue="2"/>
+                                                <f:selectItem itemLabel="DANFE Simplificado" itemValue="3"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+
+
+
+                                </div><br/><br/>
+                                <!--<div class="row">-->
+                                <!--<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <h:panelGroup styleClass="md-inputfield">
+                                        <p:inputText id="origem" value="{emissaoControle.emissao.transportadora}"
+                                                     required="true" requiredMessage="O Campo Transportadora é obrigatório."/>
+                                        <label>Transportadora</label>
+                                    </h:panelGroup>
+                                </div>-->
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                                        <h:panelGroup styleClass="md-inputfield" >
+                                            <p:selectOneMenu id="tipoDoc" value="#{emissaoControle.emissao.tpNf}"
+                                                             style="margin-right:5px;">
+                                                <f:selectItem itemLabel="Tipo do Documento" itemValue=""/>
+                                                <f:selectItem itemLabel="0 - Entrada" itemValue="0"/>
+                                                <f:selectItem itemLabel="1 - Saida" itemValue="1"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                                        <h:panelGroup styleClass="md-inputfield" >
+                                            <p:selectOneMenu id="natOp" value="#{emissaoControle.emissao.natOp}"
+                                                             style="margin-right:5px;">
+                                                <f:selectItem itemLabel="Natureza da Operação" itemValue=""/>
+                                                <f:selectItem itemLabel="Compra" itemValue="Compra"/>
+                                                <f:selectItem itemLabel="Transfêrencia" itemValue="Transferencia"/>
+                                                <f:selectItem itemLabel="Venda" itemValue="Venda"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="dataemi" value="#{emissaoControle.emissao.dataDigit}"/>
+                                            <label>Data de Digitação</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="dataCanc" value="#{emissaoControle.emissao.dataCancel}"/>
+                                            <label>Data Cancelamento</label>
+                                        </h:panelGroup>
+                                    </div>
+
+                                </div><br/><br/>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmsbce" value="#{emissaoControle.emissao.icmsBc}"/>
+                                            <label>BC ICMS</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmsvlre" value="#{emissaoControle.emissao.icmsVlr}"/>
+                                            <label>Valor ICMS</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="ipibce" value="#{emissaoControle.emissao.ipiBc}"/>
+                                            <label>BC IPI</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="ipivlre" value="#{emissaoControle.emissao.ipiVlr}"/>
+                                            <label>Valor IPI</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="pisbce" value="#{emissaoControle.emissao.pisBc}"/>
+                                            <label>BC PIS</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="pisvlre" value="#{emissaoControle.emissao.pisVlr}"/>
+                                            <label>Valor PIS</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cofinsbce" value="#{emissaoControle.emissao.cofinsBc}"/>
+                                            <label>BC Cofins</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cofinsvlre" value="#{emissaoControle.emissao.cofinsVlr}"/>
+                                            <label>Valor Cofins</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrprodnfe" value="#{emissaoControle.emissao.vlrProdNf}"/>
+                                            <label>Valor Prod Nfe</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrdescnfe" value="#{emissaoControle.emissao.vlrDescNf}"/>
+                                            <label>Valor Desc Nfe</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrtotnfe" value="#{emissaoControle.emissao.vlrTotalNf}"/>
+                                            <label>Valor Total Nfe</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                            </p:tab>
+                            <p:tab title="Transporte">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+                                        <h:panelGroup styleClass="md-inputfield" >
+                                            <p:selectOneMenu id="modalidade" value="#{emissaoControle.emissao.modalidadeFrete}"
+                                                             style="margin-right:5px;">
+                                                <f:selectItem itemLabel="Modalidade do Frete" itemValue=""/>
+                                                <f:selectItem itemLabel="0-Contratação do Frete por conta do Remetente (CIF)" itemValue="0"/>
+                                                <f:selectItem itemLabel="1-Contratação do Frete por conta do Destinatário (FOB)" itemValue="1"/>
+                                                <f:selectItem itemLabel="2-Contratação do Frete por conta de Terceiros" itemValue="2"/>
+                                                <f:selectItem itemLabel="3-Transporte Próprio por conta do Remetente" itemValue="3"/>
+                                                <f:selectItem itemLabel="4-Transporte Próprio por conta do Destinatário" itemValue="4"/>
+                                                <f:selectItem itemLabel="9-Sem Ocorrência de Transporte" itemValue="9"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <p:tabView>
+                                        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
+                                            <h:panelGroup styleClass="md-inputfield">
+                                                <p:autoComplete id="busctrans" value="#{emissaoControle.emissao.transportadora}"
+                                                                converter="#{transportadoraControle.converter()}"
+                                                                completeMethod="#{transportadoraControle.listaTransportadora}"
+                                                                var="trans" itemLabel="#{trans.razao}" itemValue="#{cli}"
+                                                                maxResults="10" forceSelection="true"/>
+                                                <label>Transportadora</label>
+                                            </h:panelGroup>
+                                        </div>
+
+                                        <p:tab title="ICMS retido do Transportador">
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                                    <h:panelGroup styleClass="md-inputfield">
+                                                        <p:inputText id="vServ" value="#{emissaoControle.emissao.vserv}"/>
+                                                        <label>Valor Produto</label>
+                                                    </h:panelGroup>
+                                                </div>
+                                            </div>
+                                        </p:tab>    
+
+                                    </p:tabView>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Itens"><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="buscprod" value="#{emissaoControle.itemEmissao.produto}"
+                                                            converter="#{produtoControle.converter()}"
+                                                            completeMethod="#{emissaoControle.listaProduto}"
+                                                            var="prod" itemLabel="#{prod.nome}" itemValue="#{prod}"
+                                                            maxResults="10" forceSelection="true">
+                                                <p:ajax update="cfop,vlrunit,vlrprod" 
+                                                        event="itemSelect" listener="#{emissaoControle.atlzCampProd()}"/>
+                                            </p:autoComplete>
+                                            <label>Produto</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:selectOneMenu id="cfop" value="#{emissaoControle.itemEmissao.cfop}">
+                                                <f:selectItem itemLabel="CFOP" itemValue=""/>
+                                                <f:selectItem itemLabel="1101" itemValue="1101"/>
+                                                <f:selectItem itemLabel="1102" itemValue="1102"/>
+                                                <f:selectItem itemLabel="1111" itemValue="1111"/>
+                                                <f:selectItem itemLabel="1113" itemValue="1113"/>
+                                                <f:selectItem itemLabel="1116" itemValue="1116"/>
+                                                <f:selectItem itemLabel="1117" itemValue="1117"/>
+                                                <f:selectItem itemLabel="1118" itemValue="1118"/>
+                                                <f:selectItem itemLabel="1120" itemValue="1120"/>
+                                                <f:selectItem itemLabel="1121" itemValue="1121"/>
+                                                <f:selectItem itemLabel="1121" itemValue="1121"/>
+                                                <f:selectItem itemLabel="1122" itemValue="1122"/>
+                                                <f:selectItem itemLabel="1124" itemValue="1124"/>
+                                                <f:selectItem itemLabel="1125" itemValue="1125"/>
+                                                <f:selectItem itemLabel="1126" itemValue="1126"/>
+                                                <f:selectItem itemLabel="1151" itemValue="1151"/>
+                                                <f:selectItem itemLabel="1152" itemValue="1152"/>
+                                                <f:selectItem itemLabel="1153" itemValue="1153"/>
+                                                <f:selectItem itemLabel="1154" itemValue="1154"/>
+                                                <f:selectItem itemLabel="1201" itemValue="1201"/>
+                                                <f:selectItem itemLabel="1202" itemValue="1202"/>
+                                                <f:selectItem itemLabel="1203" itemValue="1203"/>
+                                                <f:selectItem itemLabel="1204" itemValue="1204"/>
+                                                <f:selectItem itemLabel="1205" itemValue="1205"/>
+                                                <f:selectItem itemLabel="1206" itemValue="1206"/>
+                                                <f:selectItem itemLabel="1207" itemValue="1207"/>
+                                                <f:selectItem itemLabel="1208" itemValue="1208"/>
+                                                <f:selectItem itemLabel="1209" itemValue="1209"/>
+                                                <f:selectItem itemLabel="1212" itemValue="1212"/>
+                                                <f:selectItem itemLabel="1251" itemValue="1251"/>
+                                                <f:selectItem itemLabel="1252" itemValue="1252"/>
+                                                <f:selectItem itemLabel="1253" itemValue="1253"/>
+                                                <f:selectItem itemLabel="1254" itemValue="1254"/>
+                                                <f:selectItem itemLabel="1255" itemValue="1255"/>
+                                                <f:selectItem itemLabel="1256" itemValue="1256"/>
+                                                <f:selectItem itemLabel="1257" itemValue="1257"/>
+                                                <f:selectItem itemLabel="1301" itemValue="1301"/>
+                                                <f:selectItem itemLabel="1302" itemValue="1302"/>
+                                                <f:selectItem itemLabel="1303" itemValue="1303"/>
+                                                <f:selectItem itemLabel="1304" itemValue="1304"/>
+                                                <f:selectItem itemLabel="1305" itemValue="1305"/>
+                                                <f:selectItem itemLabel="1306" itemValue="1306"/>
+                                                <f:selectItem itemLabel="1351" itemValue="1351"/>
+                                                <f:selectItem itemLabel="1352" itemValue="1352"/>
+                                                <f:selectItem itemLabel="1353" itemValue="1353"/>
+                                                <f:selectItem itemLabel="1354" itemValue="1354"/>
+                                                <f:selectItem itemLabel="1355" itemValue="1355"/>
+                                                <f:selectItem itemLabel="1356" itemValue="1356"/>
+                                                <f:selectItem itemLabel="1360" itemValue="1360"/>
+                                                <f:selectItem itemLabel="1401" itemValue="1401"/>
+                                                <f:selectItem itemLabel="1403" itemValue="1403"/>
+                                                <f:selectItem itemLabel="1406" itemValue="1406"/>
+                                                <f:selectItem itemLabel="1407" itemValue="1407"/>
+                                                <f:selectItem itemLabel="1408" itemValue="1408"/>
+                                                <f:selectItem itemLabel="1409" itemValue="1409"/>
+                                                <f:selectItem itemLabel="1410" itemValue="1410"/>
+                                                <f:selectItem itemLabel="1411" itemValue="1411"/>
+                                                <f:selectItem itemLabel="1414" itemValue="1414"/>
+                                                <f:selectItem itemLabel="1414" itemValue="1414"/>
+                                                <f:selectItem itemLabel="1415" itemValue="1415"/>
+                                                <f:selectItem itemLabel="1451" itemValue="1451"/>
+                                                <f:selectItem itemLabel="1452" itemValue="1452"/>
+                                                <f:selectItem itemLabel="1501" itemValue="1501"/>
+                                                <f:selectItem itemLabel="1503" itemValue="1503"/>
+                                                <f:selectItem itemLabel="1504" itemValue="1504"/>
+                                                <f:selectItem itemLabel="1505" itemValue="1505"/>
+                                                <f:selectItem itemLabel="1506" itemValue="1506"/>
+                                                <f:selectItem itemLabel="1551" itemValue="1551"/>
+                                                <f:selectItem itemLabel="1552" itemValue="1552"/>
+                                                <f:selectItem itemLabel="1553" itemValue="1553"/>
+                                                <f:selectItem itemLabel="1554" itemValue="1554"/>
+                                                <f:selectItem itemLabel="1555" itemValue="1555"/>
+                                                <f:selectItem itemLabel="1556" itemValue="1556"/>
+                                                <f:selectItem itemLabel="1557" itemValue="1557"/>
+                                                <f:selectItem itemLabel="1601" itemValue="1601"/>
+                                                <f:selectItem itemLabel="1602" itemValue="1602"/>
+                                                <f:selectItem itemLabel="1603" itemValue="1603"/>
+                                                <f:selectItem itemLabel="1604" itemValue="1604"/>
+                                                <f:selectItem itemLabel="1605" itemValue="1605"/>
+                                                <f:selectItem itemLabel="1651" itemValue="1651"/>
+                                                <f:selectItem itemLabel="1652" itemValue="1652"/>
+                                                <f:selectItem itemLabel="1653" itemValue="1653"/>
+                                                <f:selectItem itemLabel="1658" itemValue="1658"/>
+                                                <f:selectItem itemLabel="1659" itemValue="1659"/>
+                                                <f:selectItem itemLabel="1660" itemValue="1660"/>
+                                                <f:selectItem itemLabel="1661" itemValue="1661"/>
+                                                <f:selectItem itemLabel="1662" itemValue="1662"/>
+                                                <f:selectItem itemLabel="1663" itemValue="1663"/>
+                                                <f:selectItem itemLabel="1664" itemValue="1664"/>
+                                                <f:selectItem itemLabel="1901" itemValue="1901"/>
+                                                <f:selectItem itemLabel="1902" itemValue="1902"/>
+                                                <f:selectItem itemLabel="1903" itemValue="1903"/>
+                                                <f:selectItem itemLabel="1903" itemValue="1903"/>
+                                                <f:selectItem itemLabel="1904" itemValue="1904"/>
+                                                <f:selectItem itemLabel="1905" itemValue="1905"/>
+                                                <f:selectItem itemLabel="1906" itemValue="1906"/>
+                                                <f:selectItem itemLabel="1907" itemValue="1907"/>
+                                                <f:selectItem itemLabel="1908" itemValue="1908"/>
+                                                <f:selectItem itemLabel="1909" itemValue="1909"/>
+                                                <f:selectItem itemLabel="1910" itemValue="1910"/>
+                                                <f:selectItem itemLabel="1911" itemValue="1911"/>
+                                                <f:selectItem itemLabel="1912" itemValue="1912"/>
+                                                <f:selectItem itemLabel="1913" itemValue="1913"/>
+                                                <f:selectItem itemLabel="1914" itemValue="1914"/>
+                                                <f:selectItem itemLabel="1915" itemValue="1915"/>
+                                                <f:selectItem itemLabel="1916" itemValue="1916"/>
+                                                <f:selectItem itemLabel="1917" itemValue="1917"/>
+                                                <f:selectItem itemLabel="1918" itemValue="1918"/>
+                                                <f:selectItem itemLabel="1919" itemValue="1919"/>
+                                                <f:selectItem itemLabel="1920" itemValue="1920"/>
+                                                <f:selectItem itemLabel="1921" itemValue="1921"/>
+                                                <f:selectItem itemLabel="1922" itemValue="1922"/>
+                                                <f:selectItem itemLabel="1923" itemValue="1923"/>
+                                                <f:selectItem itemLabel="1924" itemValue="1924"/>
+                                                <f:selectItem itemLabel="1925" itemValue="1925"/>
+                                                <f:selectItem itemLabel="1926" itemValue="1926"/>
+                                                <f:selectItem itemLabel="1931" itemValue="1931"/>
+                                                <f:selectItem itemLabel="1932" itemValue="1932"/>
+                                                <f:selectItem itemLabel="1933" itemValue="1933"/>
+                                                <f:selectItem itemLabel="1934" itemValue="1934"/>
+                                                <f:selectItem itemLabel="1949" itemValue="1949"/>
+                                                <f:selectItem itemLabel="2101" itemValue="2101"/>
+                                                <f:selectItem itemLabel="2102" itemValue="2102"/>
+                                                <f:selectItem itemLabel="2111" itemValue="2111"/>
+                                                <f:selectItem itemLabel="2113" itemValue="2113"/>
+                                                <f:selectItem itemLabel="2116" itemValue="2116"/>
+                                                <f:selectItem itemLabel="2117" itemValue="2117"/>
+                                                <f:selectItem itemLabel="2118" itemValue="2118"/>
+                                                <f:selectItem itemLabel="2120" itemValue="2120"/>
+                                                <f:selectItem itemLabel="2121" itemValue="2121"/>
+                                                <f:selectItem itemLabel="2122" itemValue="2122"/>
+                                                <f:selectItem itemLabel="2124" itemValue="2124"/>
+                                                <f:selectItem itemLabel="2125" itemValue="2125"/>
+                                                <f:selectItem itemLabel="2126" itemValue="2126"/>
+                                                <f:selectItem itemLabel="2128" itemValue="2128"/>
+                                                <f:selectItem itemLabel="2151" itemValue="2151"/>
+                                                <f:selectItem itemLabel="2152" itemValue="2152"/>
+                                                <f:selectItem itemLabel="2153" itemValue="2153"/>
+                                                <f:selectItem itemLabel="2154" itemValue="2154"/>
+                                                <f:selectItem itemLabel="2201" itemValue="2201"/>
+                                                <f:selectItem itemLabel="2202" itemValue="2202"/>
+                                                <f:selectItem itemLabel="2203" itemValue="2203"/>
+                                                <f:selectItem itemLabel="2204" itemValue="2204"/>
+                                                <f:selectItem itemLabel="2205" itemValue="2205"/>
+                                                <f:selectItem itemLabel="2206" itemValue="2206"/>
+                                                <f:selectItem itemLabel="2207" itemValue="2207"/>
+                                                <f:selectItem itemLabel="2208" itemValue="2208"/>
+                                                <f:selectItem itemLabel="2209" itemValue="2209"/>
+                                                <f:selectItem itemLabel="2212" itemValue="2212"/>
+                                                <f:selectItem itemLabel="2251" itemValue="2251"/>
+                                                <f:selectItem itemLabel="2252" itemValue="2252"/>
+                                                <f:selectItem itemLabel="2253" itemValue="2253"/>
+                                                <f:selectItem itemLabel="2254" itemValue="2254"/>
+                                                <f:selectItem itemLabel="2255" itemValue="2255"/>
+                                                <f:selectItem itemLabel="2256" itemValue="2256"/>
+                                                <f:selectItem itemLabel="2257" itemValue="2257"/>
+                                                <f:selectItem itemLabel="2301" itemValue="2301"/>
+                                                <f:selectItem itemLabel="2302" itemValue="2302"/>
+                                                <f:selectItem itemLabel="2303" itemValue="2303"/>
+                                                <f:selectItem itemLabel="2304" itemValue="2304"/>
+                                                <f:selectItem itemLabel="2305" itemValue="2305"/>
+                                                <f:selectItem itemLabel="2306" itemValue="2306"/>
+                                                <f:selectItem itemLabel="2351" itemValue="2351"/>
+                                                <f:selectItem itemLabel="2352" itemValue="2352"/>
+                                                <f:selectItem itemLabel="2353" itemValue="2353"/>
+                                                <f:selectItem itemLabel="2354" itemValue="2354"/>
+                                                <f:selectItem itemLabel="2355" itemValue="2355"/>
+                                                <f:selectItem itemLabel="2356" itemValue="2356"/>
+                                                <f:selectItem itemLabel="2401" itemValue="2401"/>
+                                                <f:selectItem itemLabel="2403" itemValue="2403"/>
+                                                <f:selectItem itemLabel="2406" itemValue="2406"/>
+                                                <f:selectItem itemLabel="2407" itemValue="2407"/>
+                                                <f:selectItem itemLabel="2408" itemValue="2408"/>
+                                                <f:selectItem itemLabel="2409" itemValue="2409"/>
+                                                <f:selectItem itemLabel="2410" itemValue="2410"/>
+                                                <f:selectItem itemLabel="2411" itemValue="2411"/>
+                                                <f:selectItem itemLabel="2414" itemValue="2414"/>
+                                                <f:selectItem itemLabel="2415" itemValue="2415"/>
+                                                <f:selectItem itemLabel="2501" itemValue="2501"/>
+                                                <f:selectItem itemLabel="2503" itemValue="2503"/>
+                                                <f:selectItem itemLabel="2504" itemValue="2504"/>
+                                                <f:selectItem itemLabel="2505" itemValue="2505"/>
+                                                <f:selectItem itemLabel="2506" itemValue="2506"/>
+                                                <f:selectItem itemLabel="2551" itemValue="2551"/>
+                                                <f:selectItem itemLabel="2552" itemValue="2552"/>
+                                                <f:selectItem itemLabel="2553" itemValue="2553"/>
+                                                <f:selectItem itemLabel="2554" itemValue="2554"/>
+                                                <f:selectItem itemLabel="2555" itemValue="2555"/>
+                                                <f:selectItem itemLabel="2556" itemValue="2556"/>
+                                                <f:selectItem itemLabel="2557" itemValue="2557"/>
+                                                <f:selectItem itemLabel="2603" itemValue="2603"/>
+                                                <f:selectItem itemLabel="2651" itemValue="2651"/>
+                                                <f:selectItem itemLabel="2652" itemValue="2652"/>
+                                                <f:selectItem itemLabel="2653" itemValue="2653"/>
+                                                <f:selectItem itemLabel="2658" itemValue="2658"/>
+                                                <f:selectItem itemLabel="2659" itemValue="2659"/>
+                                                <f:selectItem itemLabel="2660" itemValue="2660"/>
+                                                <f:selectItem itemLabel="2661" itemValue="2661"/>
+                                                <f:selectItem itemLabel="2662" itemValue="2662"/>
+                                                <f:selectItem itemLabel="2663" itemValue="2663"/>
+                                                <f:selectItem itemLabel="2664" itemValue="2664"/>
+                                                <f:selectItem itemLabel="2901" itemValue="2901"/>
+                                                <f:selectItem itemLabel="2902" itemValue="2902"/>
+                                                <f:selectItem itemLabel="2903" itemValue="2903"/>
+                                                <f:selectItem itemLabel="2904" itemValue="2904"/>
+                                                <f:selectItem itemLabel="2905" itemValue="2905"/>
+                                                <f:selectItem itemLabel="2906" itemValue="2906"/>
+                                                <f:selectItem itemLabel="2907" itemValue="2907"/>
+                                                <f:selectItem itemLabel="2908" itemValue="2908"/>
+                                                <f:selectItem itemLabel="2909" itemValue="2909"/>
+                                                <f:selectItem itemLabel="2910" itemValue="2910"/>
+                                                <f:selectItem itemLabel="2911" itemValue="2911"/>
+                                                <f:selectItem itemLabel="2912" itemValue="2912"/>
+                                                <f:selectItem itemLabel="2913" itemValue="2913"/>
+                                                <f:selectItem itemLabel="2914" itemValue="2914"/>
+                                                <f:selectItem itemLabel="2915" itemValue="2915"/>
+                                                <f:selectItem itemLabel="2916" itemValue="2916"/>
+                                                <f:selectItem itemLabel="2917" itemValue="2917"/>
+                                                <f:selectItem itemLabel="2918" itemValue="2918"/>
+                                                <f:selectItem itemLabel="2919" itemValue="2919"/>
+                                                <f:selectItem itemLabel="2920" itemValue="2920"/>
+                                                <f:selectItem itemLabel="2921" itemValue="2921"/>
+                                                <f:selectItem itemLabel="2922" itemValue="2922"/>
+                                                <f:selectItem itemLabel="2923" itemValue="2923"/>
+                                                <f:selectItem itemLabel="2924" itemValue="2924"/>
+                                                <f:selectItem itemLabel="2925" itemValue="2925"/>
+                                                <f:selectItem itemLabel="2931" itemValue="2931"/>
+                                                <f:selectItem itemLabel="2932" itemValue="2932"/>
+                                                <f:selectItem itemLabel="2933" itemValue="2933"/>
+                                                <f:selectItem itemLabel="2934" itemValue="2934"/>
+                                                <f:selectItem itemLabel="2949" itemValue="2949"/>
+                                                <f:selectItem itemLabel="3101" itemValue="3101"/>
+                                                <f:selectItem itemLabel="3102" itemValue="3102"/>
+                                                <f:selectItem itemLabel="3126" itemValue="3126"/>
+                                                <f:selectItem itemLabel="3127" itemValue="3127"/>
+                                                <f:selectItem itemLabel="3128" itemValue="3128"/>
+                                                <f:selectItem itemLabel="3129" itemValue="3129"/>
+                                                <f:selectItem itemLabel="3201" itemValue="3201"/>
+                                                <f:selectItem itemLabel="3202" itemValue="3202"/>
+                                                <f:selectItem itemLabel="3205" itemValue="3205"/>
+                                                <f:selectItem itemLabel="3206" itemValue="3206"/>
+                                                <f:selectItem itemLabel="3207" itemValue="3207"/>
+                                                <f:selectItem itemLabel="3211" itemValue="3211"/>
+                                                <f:selectItem itemLabel="3212" itemValue="3212"/>
+                                                <f:selectItem itemLabel="3251" itemValue="3251"/>
+                                                <f:selectItem itemLabel="3301" itemValue="3301"/>
+                                                <f:selectItem itemLabel="3351" itemValue="3351"/>
+                                                <f:selectItem itemLabel="3352" itemValue="3352"/>
+                                                <f:selectItem itemLabel="3353" itemValue="3353"/>
+                                                <f:selectItem itemLabel="3354" itemValue="3354"/>
+                                                <f:selectItem itemLabel="3355" itemValue="3355"/>
+                                                <f:selectItem itemLabel="3356" itemValue="3356"/>
+                                                <f:selectItem itemLabel="3503" itemValue="3503"/>
+                                                <f:selectItem itemLabel="3551" itemValue="3551"/>
+                                                <f:selectItem itemLabel="3553" itemValue="3553"/>
+                                                <f:selectItem itemLabel="3556" itemValue="3556"/>
+                                                <f:selectItem itemLabel="3651" itemValue="3651"/>
+                                                <f:selectItem itemLabel="3652" itemValue="3652"/>
+                                                <f:selectItem itemLabel="3930" itemValue="3930"/>
+                                                <f:selectItem itemLabel="3949" itemValue="3949"/>
+                                                <f:selectItem itemLabel="5101" itemValue="5101"/>
+                                                <f:selectItem itemLabel="5102" itemValue="5102"/>
+                                                <f:selectItem itemLabel="5103" itemValue="5103"/>
+                                                <f:selectItem itemLabel="5104" itemValue="5104"/>
+                                                <f:selectItem itemLabel="5105" itemValue="5105"/>
+                                                <f:selectItem itemLabel="5106" itemValue="5106"/>
+                                                <f:selectItem itemLabel="5109" itemValue="5109"/>
+                                                <f:selectItem itemLabel="5110" itemValue="5110"/>
+                                                <f:selectItem itemLabel="5111" itemValue="5111"/>
+                                                <f:selectItem itemLabel="5112" itemValue="5112"/>
+                                                <f:selectItem itemLabel="5113" itemValue="5113"/>
+                                                <f:selectItem itemLabel="5114" itemValue="5114"/>
+                                                <f:selectItem itemLabel="5115" itemValue="5115"/>
+                                                <f:selectItem itemLabel="5116" itemValue="5116"/>
+                                                <f:selectItem itemLabel="5117" itemValue="5117"/>
+                                                <f:selectItem itemLabel="5118" itemValue="5118"/>
+                                                <f:selectItem itemLabel="5119" itemValue="5119"/>
+                                                <f:selectItem itemLabel="5120" itemValue="5120"/>
+                                                <f:selectItem itemLabel="5122" itemValue="5122"/>
+                                                <f:selectItem itemLabel="5123" itemValue="5123"/>
+                                                <f:selectItem itemLabel="5124" itemValue="5124"/>
+                                                <f:selectItem itemLabel="5125" itemValue="5125"/>
+                                                <f:selectItem itemLabel="5129" itemValue="5129"/>
+                                                <f:selectItem itemLabel="5151" itemValue="5151"/>
+                                                <f:selectItem itemLabel="5152" itemValue="5152"/>
+                                                <f:selectItem itemLabel="5153" itemValue="5153"/>
+                                                <f:selectItem itemLabel="5155" itemValue="5155"/>
+                                                <f:selectItem itemLabel="5156" itemValue="5156"/>
+                                                <f:selectItem itemLabel="5201" itemValue="5201"/>
+                                                <f:selectItem itemLabel="5202" itemValue="5202"/>
+                                                <f:selectItem itemLabel="5205" itemValue="5205"/>
+                                                <f:selectItem itemLabel="5206" itemValue="5206"/>
+                                                <f:selectItem itemLabel="5207" itemValue="5207"/>
+                                                <f:selectItem itemLabel="5208" itemValue="5208"/>
+                                                <f:selectItem itemLabel="5209" itemValue="5209"/>
+                                                <f:selectItem itemLabel="5210" itemValue="5210"/>
+                                                <f:selectItem itemLabel="5251" itemValue="5251"/>
+                                                <f:selectItem itemLabel="5252" itemValue="5252"/>
+                                                <f:selectItem itemLabel="5253" itemValue="5253"/>
+                                                <f:selectItem itemLabel="5254" itemValue="5254"/>
+                                                <f:selectItem itemLabel="5255" itemValue="5255"/>
+                                                <f:selectItem itemLabel="5256" itemValue="5256"/>
+                                                <f:selectItem itemLabel="5257" itemValue="5257"/>
+                                                <f:selectItem itemLabel="5258" itemValue="5258"/>
+                                                <f:selectItem itemLabel="5401" itemValue="5401"/>
+                                                <f:selectItem itemLabel="5402" itemValue="5402"/>
+                                                <f:selectItem itemLabel="5403" itemValue="5403"/>
+                                                <f:selectItem itemLabel="5405" itemValue="5405"/>
+                                                <f:selectItem itemLabel="5408" itemValue="5408"/>
+                                                <f:selectItem itemLabel="5409" itemValue="5409"/>
+                                                <f:selectItem itemLabel="5410" itemValue="5410"/>
+                                                <f:selectItem itemLabel="5411" itemValue="5411"/>
+                                                <f:selectItem itemLabel="5412" itemValue="5412"/>
+                                                <f:selectItem itemLabel="5413" itemValue="5413"/>
+                                                <f:selectItem itemLabel="5414" itemValue="5414"/>
+                                                <f:selectItem itemLabel="5415" itemValue="5415"/>
+                                                <f:selectItem itemLabel="5451" itemValue="5451"/>
+                                                <f:selectItem itemLabel="5501" itemValue="5501"/>
+                                                <f:selectItem itemLabel="5502" itemValue="5502"/>
+                                                <f:selectItem itemLabel="5503" itemValue="5503"/>
+                                                <f:selectItem itemLabel="5504" itemValue="5504"/>
+                                                <f:selectItem itemLabel="5505" itemValue="5505"/>
+                                                <f:selectItem itemLabel="5551" itemValue="5551"/>
+                                                <f:selectItem itemLabel="5552" itemValue="5552"/>
+                                                <f:selectItem itemLabel="5553" itemValue="5553"/>
+                                                <f:selectItem itemLabel="5554" itemValue="5554"/>
+                                                <f:selectItem itemLabel="5555" itemValue="5555"/>
+                                                <f:selectItem itemLabel="5556" itemValue="5556"/>
+                                                <f:selectItem itemLabel="5557" itemValue="5557"/>
+                                                <f:selectItem itemLabel="5601" itemValue="5601"/>
+                                                <f:selectItem itemLabel="5602" itemValue="5602"/>
+                                                <f:selectItem itemLabel="5603" itemValue="5603"/>
+                                                <f:selectItem itemLabel="5604" itemValue="5604"/>
+                                                <f:selectItem itemLabel="5605" itemValue="5605"/>
+                                                <f:selectItem itemLabel="5606" itemValue="5606"/>
+                                                <f:selectItem itemLabel="5651" itemValue="5651"/>
+                                                <f:selectItem itemLabel="5652" itemValue="5652"/>
+                                                <f:selectItem itemLabel="5653" itemValue="5653"/>
+                                                <f:selectItem itemLabel="5654" itemValue="5654"/>
+                                                <f:selectItem itemLabel="5655" itemValue="5655"/>
+                                                <f:selectItem itemLabel="5656" itemValue="5656"/>
+                                                <f:selectItem itemLabel="5657" itemValue="5657"/>
+                                                <f:selectItem itemLabel="5658" itemValue="5658"/>
+                                                <f:selectItem itemLabel="5659" itemValue="5659"/>
+                                                <f:selectItem itemLabel="5660" itemValue="5660"/>
+                                                <f:selectItem itemLabel="5661" itemValue="5661"/>
+                                                <f:selectItem itemLabel="5662" itemValue="5662"/>
+                                                <f:selectItem itemLabel="5663" itemValue="5663"/>
+                                                <f:selectItem itemLabel="5664" itemValue="5664"/>
+                                                <f:selectItem itemLabel="5665" itemValue="5665"/>
+                                                <f:selectItem itemLabel="5666" itemValue="5666"/>
+                                                <f:selectItem itemLabel="5667" itemValue="5667"/>
+                                                <f:selectItem itemLabel="5901" itemValue="5901"/>
+                                                <f:selectItem itemLabel="5902" itemValue="5902"/>
+                                                <f:selectItem itemLabel="5903" itemValue="5903"/>
+                                                <f:selectItem itemLabel="5904" itemValue="5904"/>
+                                                <f:selectItem itemLabel="5905" itemValue="5905"/>
+                                                <f:selectItem itemLabel="5906" itemValue="5906"/>
+                                                <f:selectItem itemLabel="5907" itemValue="5907"/>
+                                                <f:selectItem itemLabel="5908" itemValue="5908"/>
+                                                <f:selectItem itemLabel="5909" itemValue="5909"/>
+                                                <f:selectItem itemLabel="5910" itemValue="5910"/>
+                                                <f:selectItem itemLabel="5911" itemValue="5911"/>
+                                                <f:selectItem itemLabel="5912" itemValue="5912"/>
+                                                <f:selectItem itemLabel="5913" itemValue="5913"/>
+                                                <f:selectItem itemLabel="5914" itemValue="5914"/>
+                                                <f:selectItem itemLabel="5915" itemValue="5915"/>
+                                                <f:selectItem itemLabel="5916" itemValue="5916"/>
+                                                <f:selectItem itemLabel="5917" itemValue="5917"/>
+                                                <f:selectItem itemLabel="5918" itemValue="5918"/>
+                                                <f:selectItem itemLabel="5919" itemValue="5919"/>
+                                                <f:selectItem itemLabel="5920" itemValue="5920"/>
+                                                <f:selectItem itemLabel="5921" itemValue="5921"/>
+                                                <f:selectItem itemLabel="5922" itemValue="5922"/>
+                                                <f:selectItem itemLabel="5923" itemValue="5923"/>
+                                                <f:selectItem itemLabel="5924" itemValue="5924"/>
+                                                <f:selectItem itemLabel="5925" itemValue="5925"/>
+                                                <f:selectItem itemLabel="5926" itemValue="5926"/>
+                                                <f:selectItem itemLabel="5927" itemValue="5927"/>
+                                                <f:selectItem itemLabel="5928" itemValue="5928"/>
+                                                <f:selectItem itemLabel="5929" itemValue="5929"/>
+                                                <f:selectItem itemLabel="5930" itemValue="5930"/>
+                                                <f:selectItem itemLabel="5931" itemValue="5931"/>
+                                                <f:selectItem itemLabel="5932" itemValue="5932"/>
+                                                <f:selectItem itemLabel="5933" itemValue="5933"/>
+                                                <f:selectItem itemLabel="5934" itemValue="5934"/>
+                                                <f:selectItem itemLabel="5949" itemValue="5949"/>
+                                                <f:selectItem itemLabel="6101" itemValue="6101"/>
+                                                <f:selectItem itemLabel="6102" itemValue="6102"/>
+                                                <f:selectItem itemLabel="6103" itemValue="6103"/>
+                                                <f:selectItem itemLabel="6104" itemValue="6104"/>
+                                                <f:selectItem itemLabel="6105" itemValue="6105"/>
+                                                <f:selectItem itemLabel="6106" itemValue="6106"/>
+                                                <f:selectItem itemLabel="6107" itemValue="6107"/>
+                                                <f:selectItem itemLabel="6108" itemValue="6108"/>
+                                                <f:selectItem itemLabel="6109" itemValue="6109"/>
+                                                <f:selectItem itemLabel="6110" itemValue="6110"/>
+                                                <f:selectItem itemLabel="6111" itemValue="6111"/>
+                                                <f:selectItem itemLabel="6112" itemValue="6112"/>
+                                                <f:selectItem itemLabel="6113" itemValue="6113"/>
+                                                <f:selectItem itemLabel="6114" itemValue="6114"/>
+                                                <f:selectItem itemLabel="6115" itemValue="6115"/>
+                                                <f:selectItem itemLabel="6116" itemValue="6116"/>
+                                                <f:selectItem itemLabel="6117" itemValue="6117"/>
+                                                <f:selectItem itemLabel="6118" itemValue="6118"/>
+                                                <f:selectItem itemLabel="6119" itemValue="6119"/>
+                                                <f:selectItem itemLabel="6120" itemValue="6120"/>
+                                                <f:selectItem itemLabel="6122" itemValue="6122"/>
+                                                <f:selectItem itemLabel="6123" itemValue="6123"/>
+                                                <f:selectItem itemLabel="6124" itemValue="6124"/>
+                                                <f:selectItem itemLabel="6125" itemValue="6125"/>
+                                                <f:selectItem itemLabel="6129" itemValue="6129"/>
+                                                <f:selectItem itemLabel="6151" itemValue="6151"/>
+                                                <f:selectItem itemLabel="6152" itemValue="6152"/>
+                                                <f:selectItem itemLabel="6153" itemValue="6153"/>
+                                                <f:selectItem itemLabel="6155" itemValue="6155"/>
+                                                <f:selectItem itemLabel="6156" itemValue="6156"/>
+                                                <f:selectItem itemLabel="6201" itemValue="6201"/>
+                                                <f:selectItem itemLabel="6202" itemValue="6202"/>
+                                                <f:selectItem itemLabel="6205" itemValue="6205"/>
+                                                <f:selectItem itemLabel="6206" itemValue="6206"/>
+                                                <f:selectItem itemLabel="6207" itemValue="6207"/>
+                                                <f:selectItem itemLabel="6208" itemValue="6208"/>
+                                                <f:selectItem itemLabel="6209" itemValue="6209"/>
+                                                <f:selectItem itemLabel="6210" itemValue="6210"/>
+                                                <f:selectItem itemLabel="6251" itemValue="6251"/>
+                                                <f:selectItem itemLabel="6252" itemValue="6252"/>
+                                                <f:selectItem itemLabel="6253" itemValue="6253"/>
+                                                <f:selectItem itemLabel="6254" itemValue="6254"/>
+                                                <f:selectItem itemLabel="6255" itemValue="6255"/>
+                                                <f:selectItem itemLabel="6256" itemValue="6256"/>
+                                                <f:selectItem itemLabel="6257" itemValue="6257"/>
+                                                <f:selectItem itemLabel="6258" itemValue="6258"/>
+                                                <f:selectItem itemLabel="6401" itemValue="6401"/>
+                                                <f:selectItem itemLabel="6402" itemValue="6402"/>
+                                                <f:selectItem itemLabel="6403" itemValue="6403"/>
+                                                <f:selectItem itemLabel="6404" itemValue="6404"/>
+                                                <f:selectItem itemLabel="6405" itemValue="6405"/>
+                                                <f:selectItem itemLabel="6406" itemValue="6406"/>
+                                                <f:selectItem itemLabel="6407" itemValue="6407"/>
+                                                <f:selectItem itemLabel="6408" itemValue="6408"/>
+                                                <f:selectItem itemLabel="6409" itemValue="6409"/>
+                                                <f:selectItem itemLabel="6410" itemValue="6410"/>
+                                                <f:selectItem itemLabel="6411" itemValue="6411"/>
+                                                <f:selectItem itemLabel="6412" itemValue="6412"/>
+                                                <f:selectItem itemLabel="6413" itemValue="6413"/>
+                                                <f:selectItem itemLabel="6414" itemValue="6414"/>
+                                                <f:selectItem itemLabel="6415" itemValue="6415"/>
+                                                <f:selectItem itemLabel="6501" itemValue="6501"/>
+                                                <f:selectItem itemLabel="6502" itemValue="6502"/>
+                                                <f:selectItem itemLabel="6503" itemValue="6503"/>
+                                                <f:selectItem itemLabel="6504" itemValue="6504"/>
+                                                <f:selectItem itemLabel="6505" itemValue="6505"/>
+                                                <f:selectItem itemLabel="6551" itemValue="6551"/>
+                                                <f:selectItem itemLabel="6552" itemValue="6552"/>
+                                                <f:selectItem itemLabel="6553" itemValue="6553"/>
+                                                <f:selectItem itemLabel="6554" itemValue="6554"/>
+                                                <f:selectItem itemLabel="6555" itemValue="6555"/>
+                                                <f:selectItem itemLabel="6556" itemValue="6556"/>
+                                                <f:selectItem itemLabel="6557" itemValue="6557"/>
+                                                <f:selectItem itemLabel="6603" itemValue="6603"/>
+                                                <f:selectItem itemLabel="6651" itemValue="6651"/>
+                                                <f:selectItem itemLabel="6652" itemValue="6652"/>
+                                                <f:selectItem itemLabel="6653" itemValue="6653"/>
+                                                <f:selectItem itemLabel="6654" itemValue="6654"/>
+                                                <f:selectItem itemLabel="6655" itemValue="6655"/>
+                                                <f:selectItem itemLabel="6656" itemValue="6656"/>
+                                                <f:selectItem itemLabel="6657" itemValue="6657"/>
+                                                <f:selectItem itemLabel="6659" itemValue="6659"/>
+                                                <f:selectItem itemLabel="6660" itemValue="6660"/>
+                                                <f:selectItem itemLabel="6661" itemValue="6661"/>
+                                                <f:selectItem itemLabel="6662" itemValue="6662"/>
+                                                <f:selectItem itemLabel="6663" itemValue="6663"/>
+                                                <f:selectItem itemLabel="6664" itemValue="6664"/>
+                                                <f:selectItem itemLabel="6665" itemValue="6665"/>
+                                                <f:selectItem itemLabel="6666" itemValue="6666"/>
+                                                <f:selectItem itemLabel="6667" itemValue="6667"/>
+                                                <f:selectItem itemLabel="6901" itemValue="6901"/>
+                                                <f:selectItem itemLabel="6902" itemValue="6902"/>
+                                                <f:selectItem itemLabel="6903" itemValue="6903"/>
+                                                <f:selectItem itemLabel="6904" itemValue="6904"/>
+                                                <f:selectItem itemLabel="6905" itemValue="6905"/>
+                                                <f:selectItem itemLabel="6906" itemValue="6906"/>
+                                                <f:selectItem itemLabel="6907" itemValue="6907"/>
+                                                <f:selectItem itemLabel="6908" itemValue="6908"/>
+                                                <f:selectItem itemLabel="6909" itemValue="6909"/>
+                                                <f:selectItem itemLabel="6910" itemValue="6910"/>
+                                                <f:selectItem itemLabel="6911" itemValue="6911"/>
+                                                <f:selectItem itemLabel="6912" itemValue="6912"/>
+                                                <f:selectItem itemLabel="6913" itemValue="6913"/>
+                                                <f:selectItem itemLabel="6914" itemValue="6914"/>
+                                                <f:selectItem itemLabel="6915" itemValue="6915"/>
+                                                <f:selectItem itemLabel="6916" itemValue="6916"/>
+                                                <f:selectItem itemLabel="6917" itemValue="6917"/>
+                                                <f:selectItem itemLabel="6918" itemValue="6918"/>
+                                                <f:selectItem itemLabel="6919" itemValue="6919"/>
+                                                <f:selectItem itemLabel="6920" itemValue="6920"/>
+                                                <f:selectItem itemLabel="6921" itemValue="6921"/>
+                                                <f:selectItem itemLabel="6922" itemValue="6922"/>
+                                                <f:selectItem itemLabel="6923" itemValue="6923"/>
+                                                <f:selectItem itemLabel="6924" itemValue="6924"/>
+                                                <f:selectItem itemLabel="6925" itemValue="6925"/>
+                                                <f:selectItem itemLabel="6929" itemValue="6929"/>
+                                                <f:selectItem itemLabel="6931" itemValue="6931"/>
+                                                <f:selectItem itemLabel="6932" itemValue="6932"/>
+                                                <f:selectItem itemLabel="6933" itemValue="6933"/>
+                                                <f:selectItem itemLabel="6934" itemValue="6934"/>
+                                                <f:selectItem itemLabel="6949" itemValue="6949"/>
+                                                <f:selectItem itemLabel="7101" itemValue="7101"/>
+                                                <f:selectItem itemLabel="7102" itemValue="7102"/>
+                                                <f:selectItem itemLabel="7105" itemValue="7105"/>
+                                                <f:selectItem itemLabel="7106" itemValue="7106"/>
+                                                <f:selectItem itemLabel="7127" itemValue="7127"/>
+                                                <f:selectItem itemLabel="7129" itemValue="7129"/>
+                                                <f:selectItem itemLabel="7201" itemValue="7201"/>
+                                                <f:selectItem itemLabel="7202" itemValue="7202"/>
+                                                <f:selectItem itemLabel="7205" itemValue="7205"/>
+                                                <f:selectItem itemLabel="7206" itemValue="7206"/>
+                                                <f:selectItem itemLabel="7207" itemValue="7207"/>
+                                                <f:selectItem itemLabel="7210" itemValue="7210"/>
+                                                <f:selectItem itemLabel="7211" itemValue="7211"/>
+                                                <f:selectItem itemLabel="7212" itemValue="7212"/>
+                                                <f:selectItem itemLabel="7251" itemValue="7251"/>
+                                                <f:selectItem itemLabel="7501" itemValue="7501"/>
+                                                <f:selectItem itemLabel="7551" itemValue="7551"/>
+                                                <f:selectItem itemLabel="7553" itemValue="7553"/>
+                                                <f:selectItem itemLabel="7556" itemValue="7556"/>
+                                                <f:selectItem itemLabel="7651" itemValue="7651"/>
+                                                <f:selectItem itemLabel="7654" itemValue="7654"/>
+                                                <f:selectItem itemLabel="7667" itemValue="7667"/>
+                                                <f:selectItem itemLabel="7930" itemValue="7930"/>
+                                                <f:selectItem itemLabel="7949" itemValue="7949"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="quant" value="#{emissaoControle.itemEmissao.itemQuant}" type="number"/>
+                                            <label>Quantidade</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="peso" value="#{emissaoControle.itemEmissao.peso}"/>
+                                            <label>Peso</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrunit" value="#{emissaoControle.itemEmissao.vlrUnit}"/>
+                                            <label>Valor Unit.</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrprod" value="#{emissaoControle.itemEmissao.vlrProd}"/>
+                                            <label>Valor Produto</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrdes" value="#{emissaoControle.itemEmissao.vlrDesconto}"/>
+                                            <label>Valor Desconto</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrtotal" value="#{emissaoControle.itemEmissao.vlrTotal}"/>
+                                            <label>Valor Total</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmsbc" value="#{emissaoControle.itemEmissao.icmsBc}"/>
+                                            <label>BC Icms</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmsporc" value="#{emissaoControle.itemEmissao.icmsPorc}"/>
+                                            <label>Icms %</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmsvlr" value="#{emissaoControle.itemEmissao.icmsVlr}"/>
+                                            <label>Valor Icms</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmscst" value="#{emissaoControle.itemEmissao.icmsCst}"/>
+                                            <label>CST Icms</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="icmsred" value="#{emissaoControle.itemEmissao.icmsRed}"/>
+                                            <label>Icms % Red</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="ipibc" value="#{emissaoControle.itemEmissao.ipiBc}"/>
+                                            <label>BC Ipi</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="ipiporc" value="#{emissaoControle.itemEmissao.ipiPorc}"/>
+                                            <label>Ipi %</label>
+                                        </h:panelGroup>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="ipivlw" value="#{emissaoControle.itemEmissao.ipiVlr}"/>
+                                            <label>Valor Ipi</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="ipicst" value="#{emissaoControle.itemEmissao.ipiCst}"/>
+                                            <label>Cst Ipi</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="pisbc" value="#{emissaoControle.itemEmissao.pisBc}"/>
+                                            <label>BC Pis</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="pisporc" value="#{emissaoControle.itemEmissao.pisPorc}"/>
+                                            <label>Pis %</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="pisvlr" value="#{emissaoControle.itemEmissao.pisVlr}"/>
+                                            <label>Valor Pis</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="piscst" value="#{emissaoControle.itemEmissao.pisCst}"/>
+                                            <label>Pis Cst</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cofinsbc" value="#{emissaoControle.itemEmissao.cofinsBc}"/>
+                                            <label>BC Cofins</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cofinsporc" value="#{emissaoControle.itemEmissao.cofinsPorc}"/>
+                                            <label>Cofins %</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cofinsvlr" value="#{emissaoControle.itemEmissao.cofinsVlr}"/>
+                                            <label>Valor Cofins</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cofinscst" value="#{emissaoControle.itemEmissao.cofinsCst}"/>
+                                            <label>Cofins Cst</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p:commandButton value="Adicionar" style="width:auto;margin-bottom:10px;"
+                                                         styleClass="cyan-btn" icon="ui-icon-add-circle"
+                                                         actionListener="#{emissaoControle.addItem()}"
+                                                         update="vlrprod,vlrunit,quant,cfop,buscprod,tabela,vlrtotnfe,
+                                                         vlrdescnfe,vlrprodnfe,cofinsvlre,cofinsbce,pisvlre,
+                                                         pisbce,ipivlre,ipibce,icmsvlre,icmsbce"
+                                                         />
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p:dataTable id="tabela" value="#{emissaoControle.emissao.listaProd}"
+                                                     var="ic" emptyMessage="Nenhum Produto adicionado">
+                                            <p:column headerText="Produto">
+                                                <h:outputText value="#{ic.produto.nome}"/>
+                                            </p:column>
+                                            <p:column headerText="Quantidade">
+                                                <h:outputText value="#{ic.itemQuant}"/>
+                                            </p:column>
+                                            <p:column headerText="Valor">
+                                                <h:outputText value="#{ic.vlrProd}">
+                                                    <f:convertNumber minFractionDigits="2"  maxFractionDigits="2" type="currency"  currencySymbol="R$"/> 
+                                                </h:outputText>
+                                            </p:column>
+                                            <!--<p:column headerText="Operações">
+                                                <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" actionListener="#{vendaControle.removerItem(ic)}"
+                                                                 ajax="true" update="total"/>
+                                                <p:tooltip for="btnExcluir" value="Excluir item da venda" position="top"/>
+                                            </p:column>-->
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+
+                            </p:tab>
+                        </p:tabView><br/><br/>
+                        <div class="row" style="margin-left: 5px;">
+
+                            <p:commandButton  value="Transmitir NFe" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;" update="growl" action="list.xhtml"
+                                              styleClass="green-btn" icon="ui-icon-save"
+                                              disabled="#{!consultaStatusServController.statusEmit()}"
+                                              actionListener="#{emissaoControle.salvar()}"/>
+                            <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;"
+                                              styleClass="red-btn" icon="ui-icon-home"
+                                              action="list.xhtml"/>
+
+                        </div>
+                    </h:form>
+                </div>
+
+
+                <!--</p:panelGrid>-->
+
+
+            </div>
+
+        </div>
+
+    </ui:define>
+</ui:composition>
+

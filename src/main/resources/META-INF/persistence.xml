@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="comercialPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>br.com.comercial.entidade.Pessoa</class>
+    <class>br.com.comercial.entidade.Cliente</class>
+    <class>br.com.comercial.entidade.Produto</class>
+    <class>br.com.comercial.entidade.Emitente</class>
+    <class>br.com.comercial.entidade.Cidade</class>
+    <class>br.com.comercial.entidade.Estado</class>
+    <class>br.com.comercial.entidade.ParametrosFiscais</class>
+    <class>br.com.comercial.entidade.Marca</class>
+    <class>br.com.comercial.entidade.Grupo</class>
+    <class>br.com.comercial.entidade.Fornecedor</class>
+    <class>br.com.comercial.entidade.NumeroNfe</class>
+    <class>br.com.comercial.entidade.Emissao</class>
+    <class>br.com.comercial.entidade.ItemEmissao</class>
+    <class>br.com.comercial.entidade.Emissao65</class>
+    <class>br.com.comercial.entidade.Usuario</class>
+    <class>br.com.comercial.entidade.Inutilizacao</class>
+    <class>br.com.comercial.entidade.Transportadora</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nfe"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="1234"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.format_sql" value="true"/>
+    </properties>
+  </persistence-unit>
+</persistence>

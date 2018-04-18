@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cadastrar Usuário</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-12">
+                <!-- Left Side -->
+                <div class="card card-w-title">
+                    <h:form>
+                        <p:growl showDetail="true" id="growl" sticky="true"/>
+                        <h1>Cadastrar Usuario</h1>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="nome" value="#{usuarioControle.usuario.nome}"
+                                                 required="true" requiredMessage="O  Campo Nome do Usuario é Obrigatório."/>
+                                    <label>Nome do Usuario *</label>
+                                </h:panelGroup>
+                            </div>   
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="nomeL" value="#{usuarioControle.usuario.login}"
+                                                 required="true" requiredMessage="O  Campo Login é Obrigatório."/>
+                                    <label>Login *</label>
+                                </h:panelGroup>
+                            </div>   
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:password id="senha1" value="#{usuarioControle.senha}"
+                                                feedback="true" inline="true"
+                                                required="true" requiredMessage="O  Campo Senha é Obrigatório."/>
+                                    <label>Senha *</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="senha2" value="#{usuarioControle.confirmaSenha}"
+                                                 type="password"
+                                                 required="true" requiredMessage="O  Campo Confirmar senha é Obrigatório."/>
+                                    <label>Confirmar senha *</label>
+                                </h:panelGroup>
+                            </div>
+                        </div><br/><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:selectOneMenu id="gPai" value="#{usuarioControle.usuario.nivelAcesso}">
+                                        <f:selectItem itemLabel="Privilégio *"/>
+                                        <f:selectItem itemLabel="Administrador" itemValue="Administrador"/>
+                                        <f:selectItem itemLabel="Instituição" itemValue="Instituição"/>
+                                        <f:selectItem itemLabel="Almoxarifado" itemValue="Almoxarifado"/>
+                                    </p:selectOneMenu>    
+                                </h:panelGroup>
+                            </div>
+                            
+                        </div><br/><br/>
+                        <div class="row" style="margin-left: 5px;">
+                            <p:commandButton  value="Salvar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;" update="growl"
+                                              disabled="#{!consultaStatusServController.statusEmit()}"
+                                              styleClass="green-btn" icon="ui-icon-save"
+                                              action="#{usuarioControle.salvar()}"/>
+                            <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;"
+                                              styleClass="red-btn" icon="ui-icon-home"
+                                              action="list.xhtml"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

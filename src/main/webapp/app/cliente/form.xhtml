@@ -1,0 +1,223 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <ui:define name="title">Cadastrar Cliente</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-12">
+                <!-- Left Side -->
+                <div class="card card-w-title">
+                    <h:form id="formulario">
+                        <p:growl showDetail="true" id="growl" sticky="true"/>
+                        <h1>Cadastrar Cliente</h1>
+                        <p:tabView>
+                            <p:tab title="Dados">
+                                <br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <p:selectOneRadio value="#{clienteControle.cliente.tipo}">
+                                            <f:selectItem itemValue="PF" itemLabel="Pessoa Fisica"/>
+                                            <f:selectItem itemValue="PJ" itemLabel="Pessoa Juridica"/>
+                                            <f:ajax event="change" listener="#{clienteControle.validaPes()}"
+                                                    render="formulario"/>
+                                        </p:selectOneRadio>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaF == true}">
+                                            <p:inputText id="nome" value="#{clienteControle.cliente.nome}"
+                                                         required="true" 
+                                                         requiredMessage="O Nome do Cliente é obrigatório."
+                                                         />
+                                            <label>Nome</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaF == true}">
+                                            <p:inputMask id="cpf" value="#{clienteControle.cliente.cpfCnpj}" 
+                                                         mask="999.999.999-99"
+                                                         required="true" requiredMessage="O CPF do Cliente é obrigatório."
+                                                         />
+                                            <label>CPF</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaF == true}">
+                                            <p:inputText id="rg" value="#{clienteControle.cliente.rginsEst}"
+                                                         required="true" requiredMessage="O RG do Cliente é obrigatório."
+                                                         />
+                                            <label>RG</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaJ == true}">
+                                            <p:inputText id="nomeRaz" value="#{clienteControle.cliente.nome}"
+                                                         required="true" 
+                                                         requiredMessage="A Razão Social é obrigatória."
+
+                                                         />
+                                            <label>Razão Social</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaJ == true}">
+                                            <p:inputText id="nomeFant" value="#{clienteControle.cliente.nomeFantasia}"
+                                                         required="true" 
+                                                         requiredMessage="O Nome Fantasia é obrigatório."
+                                                         />
+                                            <label>Nome Fantasia</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaJ == true}">
+                                            <p:inputMask id="cnpj" value="#{clienteControle.cliente.cpfCnpj}"
+                                                         mask="99.999.999/9999-99"
+                                                         required="true" requiredMessage="O CNPJ do Cliente é obrigatório."
+                                                         />
+                                            <label>CNPJ</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield" rendered="#{clienteControle.ativaJ == true}">
+                                            <p:inputText id="ins" value="#{clienteControle.cliente.rginsEst}"
+                                                         required="true" requiredMessage="A Inscrição Estadual do Cliente é obrigatório."
+                                                         />
+                                            <label>Inscrição Estadual</label>
+                                        </h:panelGroup>
+                                    </div>
+
+                                </div><br/>
+                            </p:tab>
+                            <p:tab title="Endereço"><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="cidade" value="#{clienteControle.cliente.cidade}"
+                                                            converter="#{cidadeControle.converter()}"
+                                                            completeMethod="#{cidadeControle.listaCidade}"
+                                                            var="cid" itemLabel="#{cid.nome}" itemValue="#{cid}"
+                                                            maxResults="10" forceSelection="true"/>
+                                            <label>Cidade</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="codMun" value="#{clienteControle.cliente.codMuni}"
+                                                         required="true" requiredMessage="O Campo Código Municipio é obrigatório."/>
+                                            <label>Código Municipio</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="endereco" value="#{clienteControle.cliente.endereco}"
+                                                         required="true" requiredMessage="O ENDEREÇO do Cliente é obrigatório."/>
+                                            <label>Endereço</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="bairro" value="#{clienteControle.cliente.bairro}"
+                                                         required="true" requiredMessage="O BAIRRO do Cliente é obrigatório."/>
+                                            <label>Bairro</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="numero" value="#{clienteControle.cliente.numero}"
+                                                         required="true" requiredMessage="O NUMERO do Cliente é obrigatório."/>
+                                            <label>Numero</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputMask mask="99999-999" id="cep" value="#{clienteControle.cliente.cep}"/>
+                                            <label>CEP</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Contato"><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-4">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputMask mask="(99)99999-9999" id="tel1" value="#{clienteControle.cliente.fone}"/>
+                                            <label>Celular</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-4">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputMask mask="(99)9999-9999" id="tel2" value="#{clienteControle.cliente.fone2}"/>
+                                            <label>Telefone</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </p:tab>
+
+
+                            <!--</p:panelGrid>-->
+                        </p:tabView>
+                        <div class="row" style="margin-left: 5px; margin-top: 30px;">
+                            <p:commandButton  value="Salvar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;" update="growl"
+                                              styleClass="green-btn" icon="ui-icon-save"
+                                              action="#{clienteControle.salvar()}"/>
+                            <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;"
+                                              styleClass="red-btn" icon="ui-icon-home"
+                                              action="list.xhtml"/>
+                        </div>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+

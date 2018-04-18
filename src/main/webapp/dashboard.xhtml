@@ -1,0 +1,98 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Dashboard</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl showDetail="true" id="growl" sticky="true"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:outputText value="NF-e: " style="font-weight: bold;"/>
+                                <h:outputText value="#{controllerNfe4.consultaStatusNfe()}" style="font-weight: bold;"
+                                              class="label label-success"
+                                              rendered="#{controllerNfe4.retornaEmi() != null}"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:outputText value="NFC-e: " style="font-weight: bold;"/>
+                                <h:outputText value="#{controllerNfe4.consultaStatusNfce()}" style="font-weight: bold;"
+                                              class="label label-success"
+                                              rendered="#{controllerNfe4.retornaEmi() != null}"/>
+                            </div>
+                            
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <h:outputText value="Certificado: " style="font-weight: bold;"/>
+                                <h:outputText value="#{consultaStatusServController.verificaCert()}" style="font-weight: bold;"
+                                              class="label label-default"
+                                              rendered="#{controllerNfe4.retornaEmi() != null}"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                <h:outputText value="  Licença: " style="font-weight: bold;"/>
+                                <h:outputText class="label label-success" value="Ativa" 
+                                              style="font-weight: bold;"
+                                              rendered="#{consultaStatusServController.statusEmit()}"/>
+                                <h:outputText class="label label-danger" value="Bloqueado" 
+                                              style="font-weight: bold;"
+                                              rendered="#{!consultaStatusServController.statusEmit()}"/>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                <h:outputText class="label label-danger" 
+                                              value="Algumas funcionalidades do sistema estão desativadas, favor contatar
+                                              o suporte!" 
+                                              style="font-weight: bold;"
+                                              rendered="#{!consultaStatusServController.statusEmit()}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

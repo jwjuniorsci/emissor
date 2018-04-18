@@ -1,0 +1,195 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cadastrar Transportadora</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl showDetail="true" id="growl" sticky="true"/>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-lg-12">
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+
+
+                        <h1>Cadastrar Fornecedor</h1>
+                        <!--<p:panelGrid  layout="grid" styleClass="ui-panelgrid-blank form-group">-->
+                         
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="nf" value="#{transportadoraControle.transportadora.fantasia}"
+                                                 required="true" requiredMessage="O Campo Nome Fantasia é obrigatório."/>
+                                    <label>Nome Fantasia</label>
+                                </h:panelGroup>
+                            </div>    
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="rs" value="#{transportadoraControle.transportadora.razao}"
+                                                 required="true" requiredMessage="O Campo Razão Social é obrigatório."/>
+                                    <label>Razão Social</label>
+                                </h:panelGroup>
+                            </div>    
+                        </div><br/><br/>     
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="cnpj" mask="99.999.999.9999-99" value="#{transportadoraControle.transportadora.cnpj}"
+                                                 required="true" requiredMessage="O Campo CNPJ é obrigatório."/>
+                                    <label>CNPJ</label>
+                                </h:panelGroup>
+                            </div> 
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="ie" mask="99999999-99" value="#{transportadoraControle.transportadora.ie}"
+                                                 required="true" requiredMessage="O Campo Inscrição Estadual é obrigatório."/>
+                                    <label>Inscrição Estadual</label>
+                                </h:panelGroup>
+                            </div> 
+                            
+                        </div><br/><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="nome" value="#{transportadoraControle.transportadora.email}"
+                                                 required="true" requiredMessage="O campo Email é obrigatório."/>
+                                    <label>Email</label>
+                                </h:panelGroup>
+                            </div>
+
+                        </div><br/>
+
+                    </div>
+
+
+                    <div class="card card-w-title">
+
+                        <h2>Endereço</h2><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:autoComplete id="cidade" value="#{transportadoraControle.transportadora.cidade}"
+                                                    converter="#{cidadeControle.converter()}"
+                                                    completeMethod="#{cidadeControle.listaCidade}"
+                                                    var="cid" itemLabel="#{cid.nome}" itemValue="#{cid}"
+                                                    maxResults="10" forceSelection="true"
+                                                    required="true" requiredMessage="O campo Cidade é obrigatório."/>
+                                    <label>Cidade</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="logradouro" value="#{transportadoraControle.transportadora.rua}"
+                                                 required="true" requiredMessage="O Campo Logradouro é obrigatório."/>
+                                    <label>Logradouro</label>
+                                </h:panelGroup>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="complemento" value="#{transportadoraControle.transportadora.complemento}"
+                                                 required="true" requiredMessage="O Campo Complemento é obrigatório."/>
+                                    <label>Complemento</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="numero" value="#{transportadoraControle.transportadora.numero}"
+                                                 required="true" requiredMessage="O Campo Numero é obrigatório."/>
+                                    <label>Numero</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="cep" mask="99.999-999" value="#{transportadoraControle.transportadora.cep}"
+                                                 required="true" requiredMessage="O campo CEP é obrigatório."/>
+                                    <label>CEP</label>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card card-w-title">
+
+                        <h2>Contato</h2><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <p:selectOneMenu id="tipo" value="#{transportadoraControle.transportadora.tipo}">
+                                    <f:selectItem itemLabel="Tipo"/>
+                                    <f:selectItem itemLabel="Celular" itemValue="Celular"/>
+                                    <f:selectItem itemLabel="Fixo" itemValue="Fixo"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="fone" mask="(99)9999-9999" value="#{transportadoraControle.transportadora.fone}"
+                                                 required="true" requiredMessage="O Campo Fone é obrigatório."/>
+                                    <label>Fone</label>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+
+                    </div> 
+
+                    <div class="row" style="margin-left: 5px;">
+                        <p:commandButton  value="Salvar" style="width:auto;margin-bottom:10px;
+                                          margin-top: -10px;" update="growl"
+                                          disabled="#{!consultaStatusServController.statusEmit()}"
+                                          styleClass="green-btn" icon="ui-icon-save"
+                                          action="#{transportadoraControle.salvar()}"/>
+                        <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                          margin-top: -10px;"
+                                          styleClass="red-btn" icon="ui-icon-home"
+                                          action="list.xhtml"/>
+                    </div>
+                    <!--</p:panelGrid>-->
+
+
+                </div>
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

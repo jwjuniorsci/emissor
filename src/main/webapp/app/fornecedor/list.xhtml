@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Fornecedor</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl showDetail="true" id="growl" sticky="true"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
+                        <p:dataTable var="fornecedor" value="#{fornecedorControle.lista}" reflow="true"
+                                     rowKey="#{fornecedor.id}" paginator="true" rows="10" paginatorPosition="bottom"
+                                     emptyMessage="Nenhum Fornecedor encontrado." id="tabela">
+                            <f:facet name="header">
+                                Fornecedor
+                            </f:facet>
+                            <p:column headerText="Id" sortBy="#{fornecedor.id}" style="text-align: center;">
+                                <h:outputText value="#{fornecedor.id}" />
+                            </p:column>
+                            <p:column headerText="Fornecedor" filterBy="#{fornecedor.fantasia}" filterMatchMode="contains"
+                                      sortBy="#{fornecedor.fantasia}" style="text-align: center;">
+                                <h:outputText value="#{fornecedor.fantasia}"/>
+                            </p:column>
+                            <p:column headerText="CNPJ" filterBy="#{fornecedor.cnpj}" filterMatchMode="contains"
+                                      sortBy="#{fornecedor.cnpj}" style="text-align: center;">
+                                <h:outputText value="#{fornecedor.cnpj}"/>
+                            </p:column>
+                            <p:column headerText="Contato" filterBy="#{fornecedor.fone}" filterMatchMode="contains"
+                                      sortBy="#{fornecedor.fone}" style="text-align: center;">
+                                <h:outputText value="#{fornecedor.fone}"/>
+                            </p:column>
+                            <p:column headerText="Email" filterBy="#{fornecedor.email}" filterMatchMode="contains"
+                                      sortBy="#{fornecedor.email}" style="text-align: center;">
+                                <h:outputText value="#{fornecedor.email}"/>
+                            </p:column>
+
+                            <p:column headerText="Operações" style="text-align: center;">
+                                <p:commandButton id="btnEditar" icon="ui-icon-border-color" action="form.xhtml" 
+                                                 actionListener="#{fornecedorControle.editar(fornecedor)}"/>
+                                <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" styleClass="red-btn"
+                                                 actionListener="#{fornecedorControle.excluir(fornecedor)}"
+                                                 ajax="true" update="tabela">
+                                    <p:confirm header="Atenção!" message="Deseja excluir o registro?" icon="ui-icon-alert" />
+                                </p:commandButton>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                                <p:tooltip for="btnEditar" value="Editar" position="top"/>
+                                <p:tooltip for="btnExcluir" value="Excluir" position="top"/>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                    <div class="card card-w-title">
+                        <p:commandButton value="Novo" style="width:auto;margin-bottom:10px;float:left;
+                                         margin-top: -10px;"
+                                         disabled="#{!consultaStatusServController.statusEmit()}"
+                                         styleClass="cyan-btn" icon="ui-icon-add-circle"
+                                         actionListener="#{fornecedorControle.novo()}" action="form.xhtml"/>
+                        <p:commandButton value="Inicio" style="width:auto;margin-bottom:10px;float:right;
+                                         margin-top: -10px;"
+                                         styleClass="green-btn" icon="ui-icon-home"
+                                         action="/dashboard.xhtml"/>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,243 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cadastrar Emitente</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl showDetail="true" id="growl" sticky="true"/>
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12 ui-lg-12">
+                    <!-- Left Side -->
+                    <div class="card card-w-title">
+
+
+                        <h1>Cadastrar Emitente</h1>
+                        <!--<p:panelGrid  layout="grid" styleClass="ui-panelgrid-blank form-group">-->
+                        <div class="row" style="margin-left: 5px;">
+                            <h:panelGroup styleClass="md-inputfield">
+                                <p:selectBooleanCheckbox id="ativo" value="#{emitenteControle.emitente.status}"/>
+                                <label style="margin-left: 14px;">Ativo</label>
+                            </h:panelGroup>
+                        </div><br/> 
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="nf" value="#{emitenteControle.emitente.fantasia}"
+                                                 required="true" requiredMessage="O Campo Nome Fantasia é obrigatório."/>
+                                    <label>Nome Fantasia</label>
+                                </h:panelGroup>
+                            </div>    
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="rs" value="#{emitenteControle.emitente.razao}"
+                                                 required="true" requiredMessage="O Campo Razão Social é obrigatório."/>
+                                    <label>Razão Social</label>
+                                </h:panelGroup>
+                            </div>    
+                        </div><br/><br/>     
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="cnpj" mask="99.999.999.9999-99" value="#{emitenteControle.emitente.cnpj}"
+                                                 required="true" requiredMessage="O Campo CNPJ é obrigatório."/>
+                                    <label>CNPJ</label>
+                                </h:panelGroup>
+                            </div> 
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="ie" mask="99999999-99" value="#{emitenteControle.emitente.ie}"
+                                                 required="true" requiredMessage="O Campo Inscrição Estadual é obrigatório."/>
+                                    <label>Inscrição Estadual</label>
+                                </h:panelGroup>
+                            </div> 
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="crt" value="#{emitenteControle.emitente.crt}"
+                                                 required="true" requiredMessage="O Campo CRT é obrigatório."/>
+                                    <label>CRT</label>
+                                    <p:tooltip for="crt" value="1 - Simples Nacional, 2 - Simples Nacional - excesso de sublimite de receita bruta, 3 - Regime Normal"
+                                               position="left"/>
+                                </h:panelGroup>
+                            </div> 
+                        </div><br/><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="nome" value="#{emitenteControle.emitente.email}"
+                                                 required="true" requiredMessage="O campo Email é obrigatório."/>
+                                    <label>Email</label>
+                                </h:panelGroup>
+                            </div>
+
+                        </div><br/>
+
+                    </div>
+
+
+                    <div class="card card-w-title">
+
+                        <h2>Endereço</h2><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:autoComplete id="cidade" value="#{emitenteControle.emitente.cidade}"
+                                                    converter="#{cidadeControle.converter()}"
+                                                    completeMethod="#{cidadeControle.listaCidade}"
+                                                    var="cid" itemLabel="#{cid.nome}" itemValue="#{cid}"
+                                                    maxResults="10" forceSelection="true"
+                                                    required="true" requiredMessage="O campo Cidade é obrigatório."/>
+                                    <label>Cidade</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="codMun" value="#{emitenteControle.emitente.codMunicipio}"
+                                                 required="true" requiredMessage="O Campo Código Municipio é obrigatório."/>
+                                    <label>Código Municipio</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="logradouro" value="#{emitenteControle.emitente.rua}"
+                                                 required="true" requiredMessage="O Campo Logradouro é obrigatório."/>
+                                    <label>Logradouro</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="bairro" value="#{emitenteControle.emitente.bairro}"
+                                                 required="true" requiredMessage="O Campo Bairro é obrigatório."/>
+                                    <label>Bairro</label>
+                                </h:panelGroup>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="complemento" value="#{emitenteControle.emitente.complemento}"
+                                                 required="true" requiredMessage="O Campo Complemento é obrigatório."/>
+                                    <label>Complemento</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="numero" value="#{emitenteControle.emitente.numero}"
+                                                 required="true" requiredMessage="O Campo Numero é obrigatório."/>
+                                    <label>Numero</label>
+                                </h:panelGroup>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="cep" mask="99.999-999" value="#{emitenteControle.emitente.cep}"
+                                                 required="true" requiredMessage="O campo CEP é obrigatório."/>
+                                    <label>CEP</label>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card card-w-title">
+
+                        <h2>Contato</h2><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <p:selectOneMenu id="tipo" value="#{emitenteControle.emitente.tipo}">
+                                    <f:selectItem itemLabel="Tipo"/>
+                                    <f:selectItem itemLabel="Celular" itemValue="Celular"/>
+                                    <f:selectItem itemLabel="Fixo" itemValue="Fixo"/>
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputMask id="fone" mask="(99)9999-9999" value="#{emitenteControle.emitente.fone}"
+                                                 required="true" requiredMessage="O Campo Fone é obrigatório."/>
+                                    <label>Fone</label>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card card-w-title">
+                        <h2>Certificado Digital</h2>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+                                <p:fileUpload  fileUploadListener="#{emitenteControle.upload}" 
+                                               label="Adicionar Certificado" cancelLabel="Cancelar" sizeLimit="400000"
+                                               invalidSizeMessage="Tamanho do Certificado superior ao permitido"
+                                               auto="true" invalidFileMessage="Tipo de Certificado não suportado"
+                                               mode="advanced"/>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                <h:panelGroup styleClass="md-inputfield">
+                                    <p:inputText id="senhaCert" value="#{emitenteControle.emitente.senhaCert}"
+                                                 required="true" requiredMessage="O Campo Senha do Certificado é obrigatório."/>
+                                    <label>Senha do Certificado</label>
+                                </h:panelGroup>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-left: 5px;">
+                        <p:commandButton  value="Salvar" style="width:auto;margin-bottom:10px;
+                                          margin-top: -10px;" update="growl"
+                                          styleClass="green-btn" icon="ui-icon-save"
+                                          action="#{emitenteControle.salvar()}"/>
+                        <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                          margin-top: -10px;"
+                                          styleClass="red-btn" icon="ui-icon-home"
+                                          action="list.xhtml"/>
+                    </div>
+                    <!--</p:panelGrid>-->
+
+
+                </div>
+
+            </div>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

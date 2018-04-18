@@ -1,0 +1,115 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pu="http://primefaces.org/ultima"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:form id="menuform"> 
+        <div class="layout-menu #{guestPreferences.menuClass}">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+                    <ui:fragment rendered="#{guestPreferences.profileMode == 'inline' and guestPreferences.menuLayout != 'menu-layout-static menu-layout-horizontal'}">
+                        <div class="profile">
+                            <div class="profile-image"></div><br/>
+                            <a id="profile-options" href="#">
+                                <!--<span class="profile-name" jsf:rendered="{loginControle.usuario == null}">Administrador RJA</span>
+                                <span class="profile-name" jsf:rendered="{loginControle.usuario != null}">{loginControle.usuario.nome}</span>-->
+                                <i class="material-icons">&#xE313;</i>
+                            </a>
+                        </div>
+
+                        <ul id="profile-menu" class="ultima-menu">
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE7FD;</i>
+                                    <span>Perfil</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE32A;</i>
+                                    <span>Permissões</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE8B9;</i>
+                                    <span>Configurações</span>
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a href="#" class="ripplelink">
+                                    <i class="material-icons">&#xE8AC;</i>
+                                    <span>Sair</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </ui:fragment>
+
+                    <pu:menu widgetVar="me">
+                        <p:menuitem id="um_dashboard" value="Inicio" icon="home" outcome="/dashboard"/>
+                        <p:submenu id="um_cadastro" label="Cadastros" icon="&#xE14F;">
+                            <p:menuitem id="um_emitente" value="Emitente" icon="&#xE8A3;" outcome="/app/emitente/list.xhtml" />
+                            <p:menuitem id="um_cliente" value="Cliente" icon="&#xE8A3;" outcome="/app/cliente/list.xhtml" />
+                            <p:menuitem id="um_usuario" value="Usuário" icon="perm_identity" outcome="/app/usuario/list.xhtml" />
+                            <p:menuitem id="um_grupoM" value="Produto" icon="fiber_manual_record" outcome="/app/produto/list.xhtml"/>
+                            <p:menuitem id="um_transportadora" value="Transportadora" icon="local_shipping" outcome="/app/transportadora/list.xhtml" />
+                            <p:menuitem id="um_fornecedor" value="Fornecedor" icon="streetview" outcome="/app/fornecedor/list.xhtml" />
+                        </p:submenu>
+                        <p:submenu id="um_nfe" label="Nota Fiscal Eletrônica" icon="vpn_lock">
+                            <p:menuitem id="um_ce" value="Configurações de Emissão" icon="navigation" outcome="/app/configNfe/list.xhtml" />
+                            <p:menuitem id="um_inu" value="Inutilização de Numeros" icon="info" outcome="/app/inutilizacao/form.xhtml" />
+                            <p:menuitem id="um_enfce" value="Emitir NFCe" icon="near_me" outcome="/app/emissao65/list.xhtml" />
+                            <p:menuitem id="um_enfe" value="Emitir NFe" icon="near_me" outcome="/app/emissao/list.xhtml" />
+                        </p:submenu>
+                        <p:submenu id="um_relatorios" label="Relatorios" icon="assignment">
+                            <p:submenu id="um_sm1" label="Relatorios Cadastrais" icon="assignment_returned">
+                                <p:menuitem id="um_usuarioRel" value="Usuário" icon="fiber_manual_record" outcome="/sample" />
+                                <p:menuitem id="um_grupoMRel" value="Grupo de Material" icon="fiber_manual_record"/>
+                                <p:menuitem id="um_materialRel" value="Material" icon="fiber_manual_record"/>
+                                <p:menuitem id="um_centroEduRel" value="Centro Educacional" icon="fiber_manual_record"/>
+                                <p:menuitem id="um_transportadoraRel" value="Transportadora" icon="fiber_manual_record" outcome="/panel" />
+                                <p:menuitem id="um_fornecedorRel" value="Fornecedor" icon="fiber_manual_record" outcome="/overlay" />
+                            </p:submenu>
+                            <p:submenu id="um_sm2" label="Relatorios Gerenciais" icon="assignment_returned">
+                                <p:menuitem id="um_entraProdRel" value="Entrada de Suprimentos" icon="fiber_manual_record" outcome="/landing"/>
+                                <p:menuitem id="um_reqSupriRel" value="Req. de Suprimentos" icon="fiber_manual_record" outcome="/empty" />
+                                <p:menuitem id="um_geSupriRel" value="Gerenciar suprimentos" icon="fiber_manual_record" outcome="/login" />
+                                <p:menuitem id="um_bpRel" value="Baixa/Perda de Produto" icon="fiber_manual_record" outcome="/error" />
+                            </p:submenu>
+                        </p:submenu>
+
+                        <p:submenu id="themes" label="Temas" icon="&#xE40A;">
+                            <p:menuitem id="theme1" value="Indigo - Pink" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('indigo')}" ajax="false" />
+                            <p:menuitem id="theme2" value="Brown - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('brown')}" ajax="false" />
+                            <p:menuitem id="theme3" value="Blue - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('blue')}" ajax="false" />
+                            <p:menuitem id="theme4" value="Blue Grey - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('blue-grey')}" ajax="false" />
+                            <p:menuitem id="theme5" value="Dark - Blue" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('dark-blue')}" ajax="false" />
+                            <p:menuitem id="theme6" value="Dark - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('dark-green')}" ajax="false" />
+                            <p:menuitem id="theme7" value="Green - Yellow" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('green')}" ajax="false" />
+                            <p:menuitem id="theme8" value="Purple - Cyan" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('purple-cyan')}" ajax="false" />
+                            <p:menuitem id="theme9" value="Purple - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('purple-amber')}" ajax="false" />
+                            <p:menuitem id="theme10" value="Teal - Lime" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('teal')}" ajax="false" />
+                            <p:menuitem id="theme11" value="Cyan - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('cyan')}" ajax="false" />
+                            <p:menuitem id="theme12" value="Grey - Deep Orange" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('grey')}" ajax="false" />
+                        </p:submenu>
+                        <p:submenu id="um_customization" label="Configurações de Layout" icon="&#xE8B8;">
+                            <p:menuitem id="custom1" value="Compact Size" icon="&#xE061;" actionListener="#{guestPreferences.setCompact(true)}" ajax="false"/>
+                            <p:menuitem id="custom2" value="Material Size" icon="&#xE062;" actionListener="#{guestPreferences.setCompact(false)}" ajax="false"/>
+                            <p:menuitem id="custom3" value="Static Menu" icon="&#xE5D2;" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>
+                            <p:menuitem id="custom4" value="Overlay Menu" icon="&#xE879;" actionListener="#{guestPreferences.setMenuLayout('overlay')}" ajax="false"/>
+                            <p:menuitem id="custom5" value="Horizontal Menu" icon="&#xE22C;" actionListener="#{guestPreferences.setMenuLayout('horizontal')}" ajax="false"/>
+                            <p:menuitem id="custom6" value="Light Menu" icon="&#xE893;" actionListener="#{guestPreferences.setLightMenu}" ajax="false" />
+                            <p:menuitem id="custom7" value="Dark Menu" icon="&#xE892;" actionListener="#{guestPreferences.setDarkMenu}" ajax="false"/>
+                            <p:menuitem id="custom8" value="Inline Profile" icon="&#xE0BA;" actionListener="#{guestPreferences.setProfileMode('inline')}" ajax="false" />
+                            <p:menuitem id="custom9" value="Top Profile" icon="&#xE55A;" actionListener="#{guestPreferences.setProfileMode('overlay')}" ajax="false"/>
+                        </p:submenu>
+                    </pu:menu>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</ui:composition>

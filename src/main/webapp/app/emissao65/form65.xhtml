@@ -1,0 +1,240 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Emitir NFC-e</ui:define>
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            //<![CDATA[
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.title = '';
+                this.cfg.seriesColors = ['#FFC107', '#03A9F4'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#ffffff',
+                    gridLineColor: '#EEEEEE',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#212121'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    lineWidth: 1,
+                    markerOptions: {
+                        shadow: false,
+                        size: 7,
+                        style: 'circle'
+                    }
+                }
+            }
+            //]]>  
+        </script>
+        <style type="text/css">
+            .main-content {
+                padding: 0;
+            }
+        </style>
+    </ui:define>
+    <ui:define name="content">
+
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12 ui-lg-12">
+
+                <!-- Left Side -->
+                <div class="card card-w-title">
+                    <h:form>   
+                        <p:growl showDetail="true" id="growl" sticky="true"/>    
+                        <h1>Emitir NFC-e</h1><br/>
+                        <!--<p:panelGrid  layout="grid" styleClass="ui-panelgrid-blank form-group">-->
+
+                        <p:tabView>
+                            <p:tab title="Dados da NFe"><br/><br/>
+                                <div class="row"> 
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="chave" value="#{emissaoControle65.emissao65.chave}" disabled="true"/>
+                                            <label>Chave de Acesso</label>
+                                        </h:panelGroup>
+                                    </div>    
+                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="model" value="65" disabled="true"/>
+                                            <label>Modelo</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>     
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:selectOneMenu id="formaPag" value="#{emissaoControle65.emissao65.tpNf}">
+                                                <f:selectItem itemLabel="Tipo" itemValue=""/>
+                                                <f:selectItem itemLabel="0 - Entrada" itemValue="0"/>
+                                                <f:selectItem itemLabel="1 - Saida" itemValue="1"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:selectOneMenu id="tipoDoc" value="#{emissaoControle65.emissao65.natOp}">
+                                                <f:selectItem itemLabel="Natureza da Operação" itemValue=""/>
+                                                <f:selectItem itemLabel="Compra" itemValue="Compra"/>
+                                                <f:selectItem itemLabel="Venda" itemValue="Venda"/>
+                                            </p:selectOneMenu>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="busccli" value="#{emissaoControle65.emissao65.cliente}"
+                                                            converter="#{clienteControle.converter()}"
+                                                            completeMethod="#{clienteControle.listaCliente}"
+                                                            var="cli" itemLabel="#{cli.nome}" itemValue="#{cli}"
+                                                            maxResults="10" forceSelection="true"/>
+                                            <label>Cliente</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="desconto" value="#{emissaoControle65.emissao65.valorDesconto}">
+                                                <p:ajax update="vtotal" event="keyup"/>
+                                            </p:inputText>
+                                            <label>Valor Desconto</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vtotal" value="#{emissaoControle65.emissao65.valorTotal}"
+                                                         disabled="true"/>
+                                            <label>Valor Total</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+
+                            </p:tab>
+                            <p:tab id="itens" title="Itens"><br/><br/>
+                                <p:growl showDetail="true" id="growl2" sticky="true"/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:autoComplete id="buscprod" value="#{emissaoControle65.itemEmissao.produto}"
+                                                            converter="#{produtoControle.converter()}"
+                                                            completeMethod="#{emissaoControle65.listaProduto}"
+                                                            var="prod" itemLabel="#{prod.nome}" itemValue="#{prod}"
+                                                            maxResults="10" forceSelection="true">
+                                                <p:ajax update="cfop,vlrunit,vlrprod" 
+                                                        event="itemSelect" listener="#{emissaoControle65.atlzCampProd()}"/>
+                                            </p:autoComplete>
+                                            <label>Produto</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="cfop" value="#{emissaoControle65.itemEmissao.cfop}"/>
+                                            <label>Cfop</label>    
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="itemQuant" value="#{emissaoControle65.itemEmissao.itemQuant}"/>
+                                            <label>Quantidade</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrunit" value="#{emissaoControle65.itemEmissao.vlrUnit}"/>
+                                            <label>Valor Unit.</label>
+                                        </h:panelGroup>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+                                        <h:panelGroup styleClass="md-inputfield">
+                                            <p:inputText id="vlrprod" value="#{emissaoControle65.itemEmissao.vlrProd}"/>
+                                            <label>Valor Prod.</label>
+                                        </h:panelGroup>
+                                    </div>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p:commandButton value="Adicionar" style="width:auto;margin-bottom:10px;"
+                                                         styleClass="cyan-btn" icon="ui-icon-add-circle" 
+                                                         update="vlrprod,vlrunit,itemQuant,cfop,buscprod,tabela,vtotal,growl2"
+                                                         actionListener="#{emissaoControle65.addItem()}" ajax="true"/>
+                                    </div>
+                                </div>
+                                <br/>
+
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p:dataTable id="tabela" value="#{emissaoControle65.emissao65.listaProd}"
+                                                     var="ic" emptyMessage="Nenhum Produto adicionado">
+                                            <p:column headerText="Produto" style="background-position: center;">
+                                                <h:outputText value="#{ic.produto.nome}"/>
+                                            </p:column>
+                                            <p:column headerText="Quantidade" style="background-position: center;">
+                                                <h:outputText value="#{ic.itemQuant}"/>
+                                            </p:column>
+                                            <p:column headerText="Valor" style="background-position: center;">
+                                                <h:outputText value="#{ic.vlrProd}">
+                                                    <f:convertNumber minFractionDigits="2"  maxFractionDigits="2" type="currency"  currencySymbol="R$"/> 
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Valor" style="background-position: center;">
+                                                <h:outputText value="#{ic.vlrTotal}">
+                                                    <f:convertNumber minFractionDigits="2"  maxFractionDigits="2" type="currency"  currencySymbol="R$"/> 
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="Operações" width="15%" style="background-position: left;">
+                                                <p:commandButton id="btnExcluir" icon="ui-icon-delete-forever" 
+                                                                 actionListener="#{emissaoControle65.removerItem(ic)}"
+                                                                 ajax="true" update="vtotal"/>
+                                                <p:tooltip for="btnExcluir" value="Excluir Item" position="top"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </p:tab>
+                        </p:tabView><br/><br/>
+
+                        <div class="row" style="margin-left: 5px;">
+
+                            <p:commandButton  value="Transmitir NFe" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;" update="growl"
+                                              disabled="#{!consultaStatusServController.statusEmit()}"
+                                              styleClass="green-btn" icon="ui-icon-save"
+                                              action="#{emissaoControle65.salvar()}"/>
+
+                            <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
+                                              margin-top: -10px;" actionListener="#{emissaoControle65.testaData()}"
+                                              styleClass="red-btn" icon="ui-icon-home"
+                                              action="list.xhtml"/>
+
+                        </div>
+                    </h:form> 
+                </div>
+
+
+                <!--</p:panelGrid>-->
+
+
+            </div>
+
+        </div>
+
+    </ui:define>
+</ui:composition>
+
