@@ -53,10 +53,13 @@ import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Pag;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Total;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Total.ICMSTot;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Transp;
+import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Transp.RetTransp;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Transp.Transporta;
+import br.inf.portalfiscal.nfe.schema_4.enviNFe.TNFe.InfNFe.Transp.Vol;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TRetEnviNFe;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TUf;
 import br.inf.portalfiscal.nfe.schema_4.enviNFe.TUfEmi;
+import br.inf.portalfiscal.nfe.schema_4.enviNFe.TVeiculo;
 import br.inf.portalfiscal.nfe.schema_4.retConsReciNFe.TRetConsReciNFe;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -98,7 +101,7 @@ public class EmissaoControle implements Serializable {
     private EmissaoFacade emissaoFacade;
     @Inject
     private ProdutoFacade produtoFacade;
-    
+
     private Emissao emissao;
     private ReboqueTrans reboqueTrans;
     private Lacres lacres;
@@ -147,31 +150,74 @@ public class EmissaoControle implements Serializable {
     }
 
     public String salvar() throws Exception {
-        System.out.println("chamou o metodo");
-//        try {
-//          if(emissao.getTipo().equals("")){
-//              FacesContext.getCurrentInstance().
-//                    addMessage(null, new 
-//        FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Salvar", "O Campo Tipo é obrigatório.") );
-//          } else {
-        System.out.println("Iniciou o metodo");
-        emiteNota(emissao);
-        System.out.println("saiu do metodo");
-        emissaoFacade.salvar(emissao);
-        FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Status de Tranmissão", "Testo da Transmissão!"));
-        return "list.xhtml";
-//        }      
-//                
-////               
-////            }
-//        } catch (Exception ex) {
-//            FacesContext.getCurrentInstance().
-//                    addMessage(null, new 
-//        FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Salvar", "Contate o Suporte (44)99812-9931") );
-//            
-//        }
-//        return "";
+        try {
+            if (emissao.getCliente() == null && emissao.getCliente().equals("")) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Cliente é obrigatório."));
+            } else if (emissao.getDestOp().equals("")) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Destino de Operação é obrigatório."));
+            } else if (emissao.getTpImp().equals("")) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Formato de Impressão  é obrigatório."));
+            } else if (emissao.getTpNf().equals("")) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Tipo do documento é obrigatório."));
+            } else if (emissao.getNatOp().equals("")) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Natureza da Operação é obrigatório."));
+            } else if (emissao.getModalidadeFrete().equals("")) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Natureza da Operação é obrigatório."));
+            } else if (!emissao.getModalidadeFrete().equals("9")) {
+                if (emissao.getTransportadora() == null && emissao.getTransportadora().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir", "O Campo Transportadora é obrigatório."));
+                } else if (emissao.getVserv().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O Campo Valor do Serv. Transporte é obrigatório."));
+                } else if (emissao.getVbCRet().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O Campo B.C ICMS Retido é obrigatório."));
+                } else if (emissao.getPiCMSRet().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O Campo Aliquota do ICMS Retido é obrigatório."));
+                } else if (emissao.getViCMSRet().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O Campo Valor do ICMS Retido é obrigatório."));
+                } else if (emissao.getCfopTransp().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O CFOP de Transporte é obrigatório."));
+                } else if (emissao.getPlavaVeiculo().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O Campo Placa é obrigatório."));
+                } else if (emissao.getUfPlaca().equals("")) {
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                                    "O Campo UF Placa é obrigatório."));
+                }
+            } else {
+                System.out.println("Iniciou o metodo");
+                emiteNota(emissao);
+                System.out.println("saiu do metodo");
+                emissaoFacade.salvar(emissao);
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Status de Tranmissão", "Testo da Transmissão!"));
+                return "list.xhtml";
+            }
+
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Salvar", "Contate o Suporte (44)99812-9931"));
+
+        }
+        return "";
     }
 
     public void editar(Emissao e) {
@@ -311,36 +357,46 @@ public class EmissaoControle implements Serializable {
         itemEmissao.setCofinsPorc(BigDecimal.ZERO);
     }
 
-    public void addItem()  {
+    public void addItem() {
         try {
-        emissao.getListaProd().add(itemEmissao);
-        defineTributacao();
-        atualizaTotais();
-        itemEmissao = new ItemEmissao();
-        itemEmissao.setEmissao(emissao);
-        valoresPadraoItem();
+            emissao.getListaProd().add(itemEmissao);
+            defineTributacao();
+            atualizaTotais();
+            itemEmissao = new ItemEmissao();
+            itemEmissao.setEmissao(emissao);
+            valoresPadraoItem();
         } catch (Exception e) {
             e.getMessage();
         }
     }
-    
+
     public void addReboque() {
-        emissao.getReboques().add(reboqueTrans);
-        reboqueTrans = new ReboqueTrans();
-        reboqueTrans.setEmissao(emissao);
+        if (reboqueTrans.getRplaca().equals("")) {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                            "O Campo Placa do Reboque é obrigatório."));
+        } else if (reboqueTrans.getRuf().equals("")) {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Erro ao Transmitir",
+                            "O Campo UF Placa é obrigatório."));
+        } else {
+            emissao.getReboques().add(reboqueTrans);
+            reboqueTrans = new ReboqueTrans();
+            reboqueTrans.setEmissao(emissao);
+        }
     }
-    
-    public void removeReboque(ReboqueTrans r){
+
+    public void removeReboque(ReboqueTrans r) {
         emissao.getReboques().remove(r);
     }
-    
+
     public void addLacre() {
         emissao.getListaLacres().add(lacres);
         lacres = new Lacres();
         lacres.setEmissao(emissao);
     }
-    
-    public void removeLacre(Lacres l){
+
+    public void removeLacre(Lacres l) {
         emissao.getListaLacres().remove(l);
     }
 
@@ -584,7 +640,7 @@ public class EmissaoControle implements Serializable {
                     det.setProd(prod);
                     Imposto imposto = new Imposto();
                     ICMS icms = new ICMS();
-                    ICMSSN500 icms500 = new ICMSSN500();        
+                    ICMSSN500 icms500 = new ICMSSN500();
                     icms500.setOrig("0");
                     icms500.setCSOSN("500");
                     icms.setICMSSN500(icms500);
@@ -604,13 +660,11 @@ public class EmissaoControle implements Serializable {
                     cofinsAliq.setPCOFINS("0.00");
                     cofinsAliq.setVCOFINS("0.00");
                     cofins.setCOFINSOutr(cofinsAliq);
-                    
-                    
+
                     /*ICMS10 icms10 = new ICMS10();
             icms10.setOrig(ie.getProduto().getOrigem());
             //icms10.set'(chave); ie.getProduto().getIcmsCst());
             icms.setICMS20(icms20);*/
-
                     JAXBElement<ICMS> icmsElement = new JAXBElement<ICMS>(new QName("ICMS"), ICMS.class, icms);
                     imposto.getContent().add(icmsElement);
 
@@ -753,7 +807,7 @@ public class EmissaoControle implements Serializable {
                     if (ie.getProduto().getCofinsCst().equals("99")) {
                         cofins = new COFINS();
                         COFINSOutr cOFINSOutr = new COFINSOutr();
-                    cOFINSOutr.setCST(ie.getProduto().getCofinsCst());
+                        cOFINSOutr.setCST(ie.getProduto().getCofinsCst());
                         cOFINSOutr.setVBC("0.00");
                         cOFINSOutr.setPCOFINS("0.00");
                         cOFINSOutr.setVCOFINS("0.00");
@@ -816,7 +870,7 @@ public class EmissaoControle implements Serializable {
             3-Transporte Próprio por conta do Remetente;
             4-Transporte Próprio por conta do Destinatário;
             9-Sem Ocorrência de Transporte.*/
-                if(emissao.getModalidadeFrete().equals("9")){
+                if (emissao.getModalidadeFrete().equals("9")) {
                     transp.setModFrete(emissao.getModalidadeFrete());
                 } else {
                     transp.setModFrete(emissao.getModalidadeFrete());
@@ -838,55 +892,103 @@ public class EmissaoControle implements Serializable {
                     tCnpj = tCnpj.replaceAll(" ", "");
                     tp.setCNPJ(tCnpj);
                     transp.setTransporta(tp);
-                }
-                
-                infNfe.setTransp(transp);
-                System.out.println("Terminou a transportadora");
-                InfAdic infAdic = new InfAdic();
-                //Adicionar informações adicionais
-                infAdic.setInfCpl("DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL NAO GERA DIREITO A CRÉDITO FISCAL IPI.");
-                infNfe.setInfAdic(infAdic);
 
-                Pag pag = new Pag();
-                Pag.DetPag detPag = new Pag.DetPag();
-                /*01=Dinheiro 02=Cheque 03=Cartão de Crédito 04=Cartão de Débito
+                    ////ICMS retido do Transportador
+                    RetTransp retTransp = new RetTransp();
+                    retTransp.setCFOP(emissao.getCfopTransp());
+                    retTransp.setPICMSRet(emissao.getPiCMSRet().toString());
+                    retTransp.setVBCRet(emissao.getVbCRet().toString());
+                    retTransp.setVICMSRet(emissao.getViCMSRet().toString());
+                    retTransp.setVServ(emissao.getVserv().toString());
+                    transp.setRetTransp(retTransp);
+
+                    //Identificação do Veículo do Transportador
+                    TVeiculo tVeiculo = new TVeiculo();
+                    tVeiculo.setPlaca(emissao.getPlavaVeiculo());
+                    if (!emissao.getVrntc().equals("")) {
+                        tVeiculo.setRNTC(emissao.getVrntc());
+                    }
+                    tVeiculo.setUF(TUf.valueOf(emissao.getUfPlaca()));
+                    transp.setVeicTransp(tVeiculo);
+                    if (emissao.getReboques() != null
+                            || !emissao.getReboques().isEmpty()) {
+                        for (ReboqueTrans r : emissao.getReboques()) {
+                            tVeiculo = new TVeiculo();
+                            tVeiculo.setPlaca(r.getRplaca());
+                            if (r.equals("")) {
+                                tVeiculo.setRNTC(r.getRrntc());
+                            }
+                            tVeiculo.setUF(TUf.valueOf(r.getRuf()));
+                            transp.getReboque().add(tVeiculo);
+                        }
+                    }
+
+                    Vol vol = new Vol();
+                    vol.setQVol(emissao.getQvol().toString());
+                    vol.setEsp(emissao.getEsp());
+                    vol.setMarca(emissao.getMarca());
+                    vol.setNVol(emissao.getNvol());
+                    vol.setPesoB(emissao.getPesoB().toString());
+                    vol.setPesoL(emissao.getPesoL().toString());
+                    if (emissao.getListaLacres() != null
+                            || !emissao.getListaLacres().isEmpty()) {
+                        for (Lacres l : emissao.getListaLacres()) {
+                            Vol.Lacres lacres4 = new Vol.Lacres();
+                            lacres4.setNLacre(l.getNlacre());
+                            vol.getLacres().add(lacres4);
+                        }
+                    }
+                
+
+                transp.getVol().add(vol);
+
+            }
+
+            infNfe.setTransp(transp);
+            System.out.println("Terminou a transportadora");
+            InfAdic infAdic = new InfAdic();
+            //Adicionar informações adicionais
+            infAdic.setInfCpl("DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL NAO GERA DIREITO A CRÉDITO FISCAL IPI.");
+            infNfe.setInfAdic(infAdic);
+
+            Pag pag = new Pag();
+            Pag.DetPag detPag = new Pag.DetPag();
+            /*01=Dinheiro 02=Cheque 03=Cartão de Crédito 04=Cartão de Débito
         05 = Crédito Loja
         10=Vale Alimentação
         11=Vale Refeição
         12=Vale Presente
         13=Vale Combustível
         99=Outros*/
-                detPag.setTPag("01");
-                //Campo opcional
-                detPag.setVPag(emissao.getVlrTotalNf().toString());
-                pag.getDetPag().add(detPag);
+            detPag.setTPag("01");
+            //Campo opcional
+            detPag.setVPag(emissao.getVlrTotalNf().toString());
+            pag.getDetPag().add(detPag);
 
-                infNfe.setPag(pag);
-                System.out.println("Terminou o pagamento");
-                nfe.setInfNFe(infNfe);
+            infNfe.setPag(pag);
+            System.out.println("Terminou o pagamento");
+            nfe.setInfNFe(infNfe);
 
-                //Monta EnviNfe
-                TEnviNFe enviNFe = new TEnviNFe();
-                enviNFe.setVersao("4.00");
-                //Adicionar numero incremental
-                enviNFe.setIdLote("1");
-                enviNFe.setIndSinc("1");
-                enviNFe.getNFe().add(nfe);
-                System.out.println("Terminou o xml");
-                //Monta e Assina o XML
-                try {
-                    System.out.println("entrou no try");
-                    enviNFe = Nfe.montaNfe(enviNFe, true);
-                    System.out.println("Montou xml");
-                } catch (NfeValidacaoException nexc) {
-                    FacesContext.getCurrentInstance().
-                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Gerar XML para receita",
-                                    nexc.getMessage()));
-                    System.out.println(nexc.getMessage());
-                    return;
-                }
-               
-              
+            //Monta EnviNfe
+            TEnviNFe enviNFe = new TEnviNFe();
+            enviNFe.setVersao("4.00");
+            //Adicionar numero incremental
+            enviNFe.setIdLote("1");
+            enviNFe.setIndSinc("1");
+            enviNFe.getNFe().add(nfe);
+            System.out.println("Terminou o xml");
+            //Monta e Assina o XML
+            try {
+                System.out.println("entrou no try");
+                enviNFe = Nfe.montaNfe(enviNFe, true);
+                System.out.println("Montou xml");
+            } catch (NfeValidacaoException nexc) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Gerar XML para receita",
+                                nexc.getMessage()));
+                System.out.println(nexc.getMessage());
+                return;
+            }
 
             // Envia a Nfe para a Sefaz
             TRetEnviNFe retorno = Nfe.enviarNfe(enviNFe, ConstantesUtil.NFE);
@@ -904,44 +1006,48 @@ public class EmissaoControle implements Serializable {
             System.out.println("Data:" + retorno.getProtNFe().getInfProt().getDhRecbto());
             System.out.println("Protocolo:" + retorno.getProtNFe().getInfProt().getNProt());
 
-                //System.out.println("Xml Final :" + XmlUtil.criaNfeProc(enviNFe, retorno.getProtNFe()));
-                xml = XmlUtil.criaNfeProc(enviNFe, retorno.getProtNFe());
-                parametrosFiscais.setNumNota55(parametrosFiscais.getNumNota55() + 1);
-                try {
-                    parametrosFiscaisFacade.salvar(parametrosFiscais);
-                } catch (Exception ex) {
-                    FacesContext.getCurrentInstance().
-                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro na Transmissão",
-                                    "Não foi possivel salvar o numero da NF-e"));
-                    ex.getMessage();
-                }
-                emissao.setStatus(retorno.getProtNFe().getInfProt().getXMotivo());
-                try {
-                    criaXml(emissao);
-                } catch (IOException ex) {
-                    FacesContext.getCurrentInstance().
-                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Gerar XML",
-                                    "Não foi possivel gerar o xml"));
-                }
-                emissao.setCaminho(caminho);
+            //System.out.println("Xml Final :" + XmlUtil.criaNfeProc(enviNFe, retorno.getProtNFe()));
+            xml = XmlUtil.criaNfeProc(enviNFe, retorno.getProtNFe());
+            parametrosFiscais.setNumNota55(parametrosFiscais.getNumNota55() + 1);
+            try {
+                parametrosFiscaisFacade.salvar(parametrosFiscais);
+            } catch (Exception ex) {
                 FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "NF-e Transmitida", retorno.getProtNFe().getInfProt().getXMotivo()));
-
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro na Transmissão",
+                                "Não foi possivel salvar o numero da NF-e"));
+                ex.getMessage();
             }
-        } catch (NfeException | JAXBException | CertificadoException exs) {
+            emissao.setStatus(retorno.getProtNFe().getInfProt().getXMotivo());
+            try {
+                criaXml(emissao);
+            } catch (IOException ex) {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Gerar XML",
+                                "Não foi possivel gerar o xml"));
+            }
+            emissao.setCaminho(caminho);
             FacesContext.getCurrentInstance().
-                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Transmitir  NFC-e",
-                            exs.getMessage()));
-            System.out.println("Erro:" + exs.getMessage());
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "NF-e Transmitida", retorno.getProtNFe().getInfProt().getXMotivo()));
+
         }
     }
+    catch (NfeException | JAXBException | CertificadoException exs
 
-    public static String removeAcentos(String str) {
+    
+        ) {
+            FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Transmitir  NFC-e",
+                        exs.getMessage()));
+        System.out.println("Erro:" + exs.getMessage());
+    }
+}
+
+public static String removeAcentos(String str) {
         str = Normalizer.normalize(str, Normalizer.Form.NFD);
         str = str.replaceAll("[^\\p{ASCII}]", "");
         return str;
     }
-     
+
     public String criaXml(Emissao e) throws IOException {
         System.out.println("cria xml");
         // Create file 
@@ -970,7 +1076,7 @@ public class EmissaoControle implements Serializable {
 
         String mes = new SimpleDateFormat("MM").format(data);
         File diretorioMes = new File("/home/junior/fiscal/" + emissao.getEmitente().getRazao() + "-"
-                + emissao.getEmitente().getCnpj() + "/xml/" + ano + "/" + mes +"/55/");
+                + emissao.getEmitente().getCnpj() + "/xml/" + ano + "/" + mes + "/55/");
         if (!diretorioMes.exists()) {
             diretorioMes.mkdirs();
         }
@@ -985,8 +1091,6 @@ public class EmissaoControle implements Serializable {
         String dataFormatada = formato.format(data);
         System.out.println(dataFormatada);
     }
-
-   
 
     public void zipaArquivo() throws IOException {
         parametrosFiscais = new ParametrosFiscais();
@@ -1010,7 +1114,7 @@ public class EmissaoControle implements Serializable {
         file = new DefaultStreamedContent(stream, "", ano + "-" + mes + ".zip");
         return file;
     }
-    
+
     public StreamedContent downloadFile(Emissao v) throws FileNotFoundException {
         FacesContext context = FacesContext.getCurrentInstance();
         InputStream stream = new FileInputStream(v.getCaminho());
@@ -1092,8 +1196,5 @@ public class EmissaoControle implements Serializable {
     public void setLacres(Lacres lacres) {
         this.lacres = lacres;
     }
-    
-    
 
-    
 }
