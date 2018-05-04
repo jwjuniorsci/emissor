@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Configurações de Emissão</ui:define>
+    <ui:define name="title">Configurações de Emissão Cte</ui:define>
 
     <ui:define name="head">
         <script type="text/javascript">
@@ -59,9 +59,9 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-5">
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:autoComplete id="cidade" value="#{parametrosFiscaisControle.parametrosFiscais.emitente}"
-                                                    converter="#{emitenteControle.converter()}"
-                                                    completeMethod="#{emitenteControle.listaEmitente}"
+                                    <p:autoComplete id="cidade" value="#{parametrosCteControle.parametrosCte.emitente}"
+                                                    converter="#{emitenteCteControle.converter()}"
+                                                    completeMethod="#{emitenteCteControle.listaEmitenteCte}"
                                                     var="emit" itemLabel="#{emit.fantasia}" itemValue="#{emit}"
                                                     maxResults="10" forceSelection="true"
                                                     required="true" requiredMessage="O Campo Emitente é obrigatório."/>
@@ -73,48 +73,33 @@
                         <div class="row"> 
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="idToken"  value="#{parametrosFiscaisControle.parametrosFiscais.idToken}"
+                                    <p:inputText id="idToken"  value="#{parametrosCteControle.parametrosCte.idToken}"
                                                  />
                                     <label>Código Token</label>
                                 </h:panelGroup>
                             </div> 
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="cod55"  value="#{parametrosFiscaisControle.parametrosFiscais.serie55}"
+                                    <p:inputText id="cod55"  value="#{parametrosCteControle.parametrosCte.serie57}"
                                                  />
-                                    <label>Série 55</label>
+                                    <label>Série 57</label>
                                 </h:panelGroup>
-                            </div> 
-                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="cod65"  value="#{parametrosFiscaisControle.parametrosFiscais.serie65}"
-                                                 />
-                                    <label>Série 65</label>
-                                </h:panelGroup>
-                            </div> 
+                            </div>
 
                         </div><br/>
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="num55" required="true" requiredMessage="O campo Numero Modelo 55 é obrigatório."  
-                                                 value="#{parametrosFiscaisControle.parametrosFiscais.numNota55}"
+                                    <p:inputText id="num55" required="true" requiredMessage="O campo Numero Modelo 57 é obrigatório."  
+                                                 value="#{parametrosCteControle.parametrosCte.numNota57}"
                                                  />
-                                    <label>Numero Modelo 55</label>
-                                </h:panelGroup>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                                <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="num65"  required="true" requiredMessage="O campo Numero Modelo 65 é obrigatório."
-                                                 value="#{parametrosFiscaisControle.parametrosFiscais.numNota65}"
-                                                 />
-                                    <label>Numero Modelo 65</label>
+                                    <label>Numero Modelo 57</label>
                                 </h:panelGroup>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                 <h:panelGroup styleClass="md-inputfield">
                                     <p:inputText id="numEven"  required="true" requiredMessage="O campo Numero de Eventos é obrigatório."
-                                                 value="#{parametrosFiscaisControle.parametrosFiscais.nevento}"
+                                                 value="#{parametrosCteControle.parametrosCte.nevento}"
                                                  />
                                     <label>Numero de Eventos</label>
                                 </h:panelGroup>
@@ -123,7 +108,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="nome" value="#{parametrosFiscaisControle.parametrosFiscais.csc}"
+                                    <p:inputText id="nome" value="#{parametrosCteControle.parametrosCte.csc}"
                                                  required="true" requiredMessage="O Campo Código CSC é obrigatório."/>
                                     <label>Código CSC</label>
                                 </h:panelGroup>
@@ -134,7 +119,7 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
                                 <h:panelGroup styleClass="md-inputfield">
-                                    <p:inputText id="tipoEmi" value="#{parametrosFiscaisControle.parametrosFiscais.tipoEmi}"
+                                    <p:inputText id="tipoEmi" value="#{parametrosCteControle.parametrosCte.tipoEmi}"
                                                  required="true" requiredMessage="O Campo Tipo de Emissão é obrigatório."/>
                                     <label>Tipo de Emissão</label>
                                     <p:tooltip for="tipoEmi" value="1 - Produção, 2 - Homologação(Sem valor fiscal)"
@@ -151,7 +136,7 @@
                                               margin-top: -10px;" update="growl"
                                               disabled="#{!consultaStatusServController.statusEmit()}"
                                               styleClass="green-btn" icon="ui-icon-save"
-                                              action="#{parametrosFiscaisControle.salvar()}"/>
+                                              action="#{parametrosCteControle.salvar()}"/>
                             <p:commandButton  value="Cancelar" style="width:auto;margin-bottom:10px;
                                               margin-top: -10px;"
                                               styleClass="red-btn" icon="ui-icon-home"

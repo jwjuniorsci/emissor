@@ -6,6 +6,7 @@
 package br.com.comercial.facade;
 
 import br.com.comercial.entidade.Emitente;
+import br.com.comercial.entidade.EmitenteCte;
 import br.com.comercial.entidade.Produto;
 import br.com.comercial.persistencia.Transacional;
 import java.io.Serializable;
@@ -19,13 +20,13 @@ import javax.persistence.Query;
  * @author ricardo
  */
 @Transacional
-public class EmitenteFacade extends AbstractFacade<Emitente> implements Serializable{
+public class EmitenteCteFacade extends AbstractFacade<EmitenteCte> implements Serializable{
 
     @Inject
     private EntityManager em;
     
-    public EmitenteFacade() {
-        super(Emitente.class);
+    public EmitenteCteFacade() {
+        super(EmitenteCte.class);
     }
 
     @Override
@@ -33,8 +34,8 @@ public class EmitenteFacade extends AbstractFacade<Emitente> implements Serializ
         return em;
     }
     
-    public List<Emitente> listaAutocomplete(String valor) {
-        Query q = em.createQuery("from Emitente where lower(fantasia) like :filtro");
+    public List<EmitenteCte> listaAutocomplete(String valor) {
+        Query q = em.createQuery("from EmitenteCte where lower(fantasia) like :filtro");
         q.setParameter("filtro","%"+valor.toLowerCase()+"%");
         return q.getResultList();
     }

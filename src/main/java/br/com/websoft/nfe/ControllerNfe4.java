@@ -6,7 +6,9 @@
 package br.com.websoft.nfe;
 
 import br.com.comercial.entidade.Emitente;
+import br.com.comercial.entidade.EmitenteCte;
 import br.com.comercial.entidade.ParametrosFiscais;
+import br.com.comercial.facade.EmitenteCteFacade;
 import br.com.comercial.facade.EmitenteFacade;
 import br.com.comercial.facade.ParametrosFiscaisFacade;
 import br.com.samuelweb.certificado.Certificado;
@@ -37,8 +39,11 @@ public class ControllerNfe4 implements Serializable {
     private String statusNfce;
     private ParametrosFiscais parametrosFiscais;
     private Emitente emitente;
+    private EmitenteCte emitenteCte;
     @Inject
     private EmitenteFacade emitenteFacade;
+    @Inject
+    private EmitenteCteFacade emitenteCteFacade;
     @Inject
     private ParametrosFiscaisFacade parametrosFiscaisFacade;
 
@@ -103,6 +108,16 @@ public class ControllerNfe4 implements Serializable {
             emitente = new Emitente();
             emitente = emitenteFacade.listar().get(0);
             return emitente;
+        }
+    }
+    
+    public EmitenteCte retornaEmiCte(){
+        if(emitenteCteFacade.listar() == null || emitenteCteFacade.listar().isEmpty()){
+            return null;
+        } else {
+            emitenteCte = new EmitenteCte();
+            emitenteCte = emitenteCteFacade.listar().get(0);
+            return emitenteCte;
         }
     }
 

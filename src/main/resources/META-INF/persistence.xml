@@ -21,6 +21,8 @@
     <class>br.com.comercial.entidade.Transportadora</class>
     <class>br.com.comercial.entidade.ReboqueTrans</class>
     <class>br.com.comercial.entidade.Lacres</class>
+    <class>br.com.comercial.entidade.EmitenteCte</class>
+    <class>br.com.comercial.entidade.ParametrosCte</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/nfe"/>
@@ -28,8 +30,8 @@
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="1234"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
     </properties>
   </persistence-unit>
 </persistence>

@@ -43,6 +43,7 @@ public class Emissao implements Serializable {
     private String indIEDest;
     private String destOp;
     private String ie;
+    private String protocolo;
     private BigDecimal icmsBc;
     private BigDecimal ipiBc;
     private BigDecimal pisBc;
@@ -569,6 +570,16 @@ public class Emissao implements Serializable {
     public void setListaLacres(List<Lacres> listaLacres) {
         this.listaLacres = listaLacres;
     }
+
+    public String getProtocolo() {
+        return protocolo;
+    }
+
+    public void setProtocolo(String protocolo) {
+        this.protocolo = protocolo;
+    }
+    
+    
     
 
     @Override

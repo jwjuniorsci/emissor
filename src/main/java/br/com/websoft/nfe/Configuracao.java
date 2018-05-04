@@ -6,12 +6,15 @@
 package br.com.websoft.nfe;
 
 import br.com.comercial.entidade.Emitente;
+import br.com.comercial.entidade.EmitenteCte;
+import br.com.comercial.entidade.ParametrosCte;
 import br.com.comercial.entidade.ParametrosFiscais;
 import br.com.comercial.facade.EmitenteFacade;
 import br.com.comercial.facade.ParametrosFiscaisFacade;
 import br.com.samuelweb.certificado.Certificado;
 import br.com.samuelweb.certificado.CertificadoService;
 import br.com.samuelweb.certificado.exception.CertificadoException;
+import br.com.samuelweb.cte.dom.ConfiguracoesIniciais;
 import br.com.samuelweb.nfe.dom.ConfiguracoesIniciaisNfe;
 import br.com.samuelweb.nfe.exception.NfeException;
 import br.com.samuelweb.nfe.util.ConstantesUtil;
@@ -55,5 +58,7 @@ public class Configuracao implements Serializable {
             return ConfiguracoesIniciaisNfe.getInstance();
         }
     }
+    
+    
 
 }

@@ -61,9 +61,17 @@
                         </p:submenu>
                         <p:submenu id="um_nfe" label="Nota Fiscal Eletrônica" icon="vpn_lock">
                             <p:menuitem id="um_ce" value="Configurações de Emissão" icon="navigation" outcome="/app/configNfe/list.xhtml" />
-                            <p:menuitem id="um_inu" value="Inutilização de Numeros" icon="info" outcome="/app/inutilizacao/form.xhtml" />
                             <p:menuitem id="um_enfce" value="Emitir NFCe" icon="near_me" outcome="/app/emissao65/list.xhtml" />
                             <p:menuitem id="um_enfe" value="Emitir NFe" icon="near_me" outcome="/app/emissao/list.xhtml" />
+                            <p:menuitem id="um_inu" value="Inutilização de Numeros" icon="info" outcome="/app/inutilizacao/form.xhtml" />
+                            <p:menuitem id="um_cons" value="Consultar Nota Fiscal" icon="info" outcome="/app/consulta/form.xhtml" />
+                            <p:menuitem id="um_canc" value="Cancelar Nota Fiscal" icon="info" outcome="/app/cancelar/form.xhtml" />
+                            <p:menuitem id="um_cc" value="Carta de Correção" icon="info" outcome="/app/cartaCorre/form.xhtml" />
+                            <p:menuitem id="um_mf" value="Manifestar Nota Fiscal" icon="info" outcome="/app/manifesto/form.xhtml" />
+                        </p:submenu>
+                        <p:submenu id="um_cte" label="Conhecimento de Transporte" icon="&#xE558;">
+                            <p:menuitem id="um_emitcte" value="Emissor Cte" icon="assignment_ind" outcome="/app/emitenteCte/list.xhtml" />
+                            <p:menuitem id="um_configcte" value="Configurações Cte" icon="settings" outcome="/app/configCte/list.xhtml" />
                         </p:submenu>
                         <p:submenu id="um_relatorios" label="Relatorios" icon="assignment">
                             <p:submenu id="um_sm1" label="Relatorios Cadastrais" icon="assignment_returned">

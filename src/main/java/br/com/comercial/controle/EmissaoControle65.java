@@ -391,6 +391,10 @@ public class EmissaoControle65 implements Serializable {
     public List<Produto> listaProduto(String parte) {
         return produtoFacade.listaAutocomplete(parte);
     }
+    
+    public List<Emissao65> listaEmissao65Chave(String parte){
+        return emissao65Facade.listaEmissao65Chave(parte);
+    }
 
     public String geraChaveNfe(ParametrosFiscais p) {
         System.out.println("Chamou o metodo");
@@ -818,6 +822,7 @@ public class EmissaoControle65 implements Serializable {
                 try {
                     enviNFe = Nfe.montaNfe(enviNFe, true);
                 } catch (NfeValidacaoException nexc) {
+                    System.out.println(nexc.getMessage());
                     FacesContext.getCurrentInstance().
                             addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Gerar XML para receita",
                                     nexc.getMessage()));
@@ -845,12 +850,14 @@ public class EmissaoControle65 implements Serializable {
                 TRetEnviNFe retorno = Nfe.enviarNfe(enviNFe, ConstantesUtil.NFCE);
 
                 if (!retorno.getCStat().equals(StatusEnum.LOTE_PROCESSADO.getCodigo())) {
+                    System.out.println(retorno.getXMotivo());
                     FacesContext.getCurrentInstance().
                             addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro ao Emitir NFCe", "Status:" + retorno.getCStat() + " - Motivo:" + retorno.getXMotivo()));
                     return;
                 }
 
                 if (!retorno.getProtNFe().getInfProt().getCStat().equals(StatusEnum.AUTORIZADO.getCodigo())) {
+                    System.out.println(retorno.getProtNFe().getInfProt().getXMotivo());
                     FacesContext.getCurrentInstance().
                             addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Erro ao Emitir NFCe", "Status:" + retorno.getProtNFe().getInfProt().getCStat() + " - Motivo:" + retorno.getProtNFe().getInfProt().getXMotivo()));
                     return;
@@ -872,6 +879,7 @@ public class EmissaoControle65 implements Serializable {
                     ex.getMessage();
                 }
                 emissao.setStatus(retorno.getProtNFe().getInfProt().getXMotivo());
+                emissao.setProtocolo(retorno.getProtNFe().getInfProt().getNProt());
                 try {
                     criaXml(emissao);
                 } catch (IOException ex) {
@@ -885,6 +893,7 @@ public class EmissaoControle65 implements Serializable {
 
             }
         } catch (NfeException | JAXBException | CertificadoException exs) {
+            System.out.println(exs.getMessage());
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Transmitir  NFC-e",
                             exs.getMessage()));

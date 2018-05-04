@@ -83,9 +83,9 @@ public class FornecedorControle implements Serializable {
         
     }
 
-    public List<Emitente> getLista() {
+    /*public List<Emitente> getLista() {
         return fornecedorFacade.listaFornecedor();
-    }
+    }*/
 
     public Emitente getEmitente() {
         return fornecedor;

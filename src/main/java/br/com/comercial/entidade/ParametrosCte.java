@@ -17,22 +17,20 @@ import javax.persistence.ManyToOne;
  * @author JW Junior
  */
 @Entity
-public class ParametrosFiscais implements Serializable {
+public class ParametrosCte implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     private Integer id;
     @ManyToOne
-    private Emitente emitente;
+    private EmitenteCte emitente;
     private String senhaCert;
     private String caminhoCert;
-    private String serie55;
-    private String serie65;
+    private String serie57;
     private String idToken;
     private String tipoEmi;
     private String csc;
-    private Integer numNota65;
-    private Integer numNota55;
+    private Integer numNota57;
     private Integer nevento;
 
     public Integer getId() {
@@ -43,13 +41,15 @@ public class ParametrosFiscais implements Serializable {
         this.id = id;
     }
 
-    public Emitente getEmitente() {
+    public EmitenteCte getEmitente() {
         return emitente;
     }
 
-    public void setEmitente(Emitente emitente) {
+    public void setEmitente(EmitenteCte emitente) {
         this.emitente = emitente;
     }
+
+    
 
     public String getSenhaCert() {
         return senhaCert;
@@ -59,21 +59,7 @@ public class ParametrosFiscais implements Serializable {
         this.senhaCert = senhaCert;
     }
 
-    public String getSerie55() {
-        return serie55;
-    }
-
-    public void setSerie55(String serie55) {
-        this.serie55 = serie55;
-    }
-
-    public String getSerie65() {
-        return serie65;
-    }
-
-    public void setSerie65(String serie65) {
-        this.serie65 = serie65;
-    }
+    
 
     
 
@@ -101,22 +87,6 @@ public class ParametrosFiscais implements Serializable {
         this.caminhoCert = caminhoCert;
     }
 
-    public Integer getNumNota65() {
-        return numNota65;
-    }
-
-    public void setNumNota65(Integer numNota65) {
-        this.numNota65 = numNota65;
-    }
-
-    public Integer getNumNota55() {
-        return numNota55;
-    }
-
-    public void setNumNota55(Integer numNota55) {
-        this.numNota55 = numNota55;
-    }
-
     public String getTipoEmi() {
         return tipoEmi;
     }
@@ -133,6 +103,22 @@ public class ParametrosFiscais implements Serializable {
         this.nevento = nevento;
     }
 
+    public String getSerie57() {
+        return serie57;
+    }
+
+    public void setSerie57(String serie57) {
+        this.serie57 = serie57;
+    }
+
+    public Integer getNumNota57() {
+        return numNota57;
+    }
+
+    public void setNumNota57(Integer numNota57) {
+        this.numNota57 = numNota57;
+    }
+    
     
     
     
@@ -147,10 +133,10 @@ public class ParametrosFiscais implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ParametrosFiscais)) {
+        if (!(object instanceof ParametrosCte)) {
             return false;
         }
-        ParametrosFiscais other = (ParametrosFiscais) object;
+        ParametrosCte other = (ParametrosCte) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

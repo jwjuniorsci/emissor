@@ -38,6 +38,8 @@ public class Emissao65 implements Serializable {
     private String status;
     private String dadosAdd;
     private String caminho;
+    private String protocolo;
+    private String dataCanc;
     @ManyToOne
     private Emitente emitente;
     @ManyToOne
@@ -156,6 +158,22 @@ public class Emissao65 implements Serializable {
 
     public void setCaminho(String caminho) {
         this.caminho = caminho;
+    }
+
+    public String getProtocolo() {
+        return protocolo;
+    }
+
+    public void setProtocolo(String protocolo) {
+        this.protocolo = protocolo;
+    }
+
+    public String getDataCanc() {
+        return dataCanc;
+    }
+
+    public void setDataCanc(String dataCanc) {
+        this.dataCanc = dataCanc;
     }
     
     

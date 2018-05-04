@@ -413,7 +413,7 @@ public class EmissaoControle implements Serializable {
             String dataAAMM = new SimpleDateFormat("yyMM").format(new Date()); // Ano e Mês de emissão da NF-e.    
             String cnpjCpf = cnpj; // CNPJ do emitente.    
             String mod = "55"; // Modelo do Documento Fiscal.    
-            String serie = "1"; // Série do Documento Fiscal.    
+            String serie = p.getSerie55(); // Série do Documento Fiscal.    
             String tpEmis = "1"; // Forma de emissão da NF-e    
             String nNF = Integer.toString(p.getNumNota55()); // Número do Documento Fiscal.    
             String cNF = lpadTo(Integer.toString(new Random().nextInt(99999999)), 8, '0'); // Código Numérico que compõe a Chave de Acesso.    
@@ -1018,6 +1018,7 @@ public class EmissaoControle implements Serializable {
                 ex.getMessage();
             }
             emissao.setStatus(retorno.getProtNFe().getInfProt().getXMotivo());
+            emissao.setProtocolo(retorno.getProtNFe().getInfProt().getNProt());
             try {
                 criaXml(emissao);
             } catch (IOException ex) {
@@ -1134,9 +1135,9 @@ public static String removeAcentos(String str) {
         this.emissao = emissao;
     }
 
-//    public List<Emissao> listaEmissao(String parte) {
-//        return emissaoFacade.listaAutocomplete(parte);
-//    }
+    public List<Emissao> listaEmissaoChave(String parte) {
+        return emissaoFacade.listaEmissaoChave(parte);
+    }
     public ItemEmissao getItemEmissao() {
         return itemEmissao;
     }

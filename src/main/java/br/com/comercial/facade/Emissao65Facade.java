@@ -38,11 +38,11 @@ public class Emissao65Facade extends AbstractFacade<Emissao65> implements Serial
         em.merge(e);
     }
     
-//    public List<Emitente> listaAutocomplete(String valor) {
-//        Query q = em.createQuery("from Emitente where lower(fantasia) like :filtro");
-//        q.setParameter("filtro","%"+valor.toLowerCase()+"%");
-//        return q.getResultList();
-//    }
+    public List<Emissao65> listaEmissao65Chave(String valor) {
+        Query q = em.createQuery("from Emissao65 where lower(chave) like :filtro");
+        q.setParameter("filtro","%"+valor.toLowerCase()+"%");
+        return q.getResultList();
+    }
 //    
 //    public List<Emitente> listaTransportadora(){
 //        Query q = getEm().createNativeQuery("select * from Emitente where referente = 'Transportadora';",Emitente.class);

@@ -119,7 +119,11 @@
             <artifactId>barbecue</artifactId>
             <version>1.5-beta1</version>
         </dependency>
-
+        <dependency>
+            <groupId>br.com.samuelweb</groupId>
+            <artifactId>java-cte</artifactId>
+            <version>3.00.2</version>
+        </dependency>
     </dependencies>
     
     <repositories>
